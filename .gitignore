@@ -1,5 +1,6 @@
 /server/node_modules/
 /.gitignore/
 /server/package-lock.json
-/client/node_modules/
 /client/react-api/node_modules/
+/client/react-api/flow-typed/
+
