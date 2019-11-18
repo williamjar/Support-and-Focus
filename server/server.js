@@ -25,7 +25,7 @@ function getTime(){
 }
 
 // get all tickets
-app.get("/tickets", (req, res) => {
+app.get("/tickets" , (req, res) => {
     console.log("GET: retrieves tickets");
     pool.getConnection((err, connection) => {
       console.log("Connected to database");

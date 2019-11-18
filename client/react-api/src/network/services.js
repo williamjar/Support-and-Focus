@@ -28,8 +28,9 @@ class TicketService {
         return axios.post<>('/create_ticket', json);
     }
 
-    getTickets() {
-        return axios.get<Ticket[]>('/tickets').then(response => response.data);
+
+    getTickets(parameter) {
+        return axios.get<Ticket[]>('/tickets',parameter).then(response => response.data);
     }
 
     getArchive() {

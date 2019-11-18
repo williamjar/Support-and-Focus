@@ -1,38 +1,60 @@
 // @flow
 import {Component} from "react-simplified";
 import {Archive, Ticket, ticketService} from "../network/services";
-import {Button, Card, Container} from "react-bootstrap";
+import {Button, ListGroup, Table, Row, Card, Container} from "react-bootstrap";
 import {Alert} from "../widgets";
 import React from 'react';
 
-export class ArchiveList extends Component{
+export class ArchiveList extends Component {
     archive: Archive[] = [];
-
 
 
     render() {
         return (
-            <div class="card-deck">
+            <Container className="m-auto">
+                <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>
+                    <thead>
+                    <tr>
+                        <th>Ticket ID</th>
+                        <th>Customer</th>
+                        <th>Order Number</th>
+                        <th>Content</th>
+                        <th>Archived date</th>
+                        <th>Reopen</th>
+                        <th>Delete (GDPR)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                 {this.archive.map(ticket => (
-                    <div className="col-lg-2">
-                        <div class="card m-1 bg-dark text-white">
-                            <div className="card-header"><h5 className="card-title">{"Order number: " + ticket.headline}</h5></div>
-                            <div class="card-body">
-                                <img className="card-img-top" src={ticket.picture}/>
-                                <p className="card-subtitle m-2" >{ticket.content}</p>
-                            </div>
-                            <div className="card-footer">
-                                <p className="card-text">Ticket number: {ticket.ticket_id}</p>
-                                <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
-                                <p className="card-text"><small className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
-                            </div>
-                        </div>
-                    </div>
+                        <tr>
+                            <td>{ticket.ticket_id}</td>
+                            <td>{ticket.author}</td>
+                            <td>{ticket.headline}</td>
+                            <td>{this.shortenString(ticket.content, 20)}</td>
+                            <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
+                            <td>
+                                <Button variant="warning">Reopen ticket</Button>
+                            </td>
+                            <td>
+                                <Button variant="danger">Delete forever</Button>
+                            </td>
+                        </tr>
+
+
+
+
                 ))}
-            </div>
+                    </tbody>
+                </Table>
+            </Container>
         )
     }
 
+    shortenString(text, chars){
+        if(text == null || text == " ") return "no content";
+        var str = text.slice(0, chars);
+        return str+"...";
+    }
     mounted() {
         ticketService
             .getArchive()
@@ -41,7 +63,7 @@ export class ArchiveList extends Component{
     }
 
 
-    convertDateTimeFromSQL(date){
+    convertDateTimeFromSQL(date) {
         var str = date.split('-');
 
         var year = str[0];
@@ -58,10 +80,10 @@ export class ArchiveList extends Component{
         var minute = restTime[1];
 
 
-
         return 'Time archived: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
 
     }
+
 
     //lag en json her fra infoen
 }
