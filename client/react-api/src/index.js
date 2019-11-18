@@ -45,7 +45,6 @@ class Footer extends Component {
 }
 
 //the list of tickets
-
 const root = document.getElementById('root');
 if (root)
     ReactDOM.render(
@@ -53,14 +52,10 @@ if (root)
             <div>
                 <Alert />
                 <Menu />
-
                 <div class="card-columns">
                     <Route exact path="/" component={Faq} />
                     <Route exact path="/" component={SubmitForm} />
-
-
                 </div>
-
                 <Route path="/tickets" component={TicketList} />
                 <Route path="/faq" component={Faq} />
                 <Route path="/archive" component={ArchiveList} />

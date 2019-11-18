@@ -1,6 +1,6 @@
 // @flow
 
-import {Component} from "react";
+import {Component} from "react-simplified";
 import {Ticket, ticketService} from "../network/services";
 import {Button, Card, Container} from "react-bootstrap";
 import {Alert} from "../widgets";
@@ -8,8 +8,6 @@ import React from 'react';
 
 export class TicketList extends Component{
     tickets: Ticket[] = [];
-
-
 
     render() {
         return (
@@ -27,7 +25,6 @@ export class TicketList extends Component{
                                 <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
                                 <p className="card-text"><small className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
                             </div>
-
                             <Button variant="danger m-4">Contact customer now</Button>
                             <Button variant="success m-4" onClick={() => this.archiveTicket(ticket)}>{}Mark as solved</Button>
                         </div>
@@ -42,7 +39,9 @@ export class TicketList extends Component{
             .getTickets()
             .then(tickets => (this.tickets = tickets))
             .catch((error: Error) => Alert.danger(error.message));
+
     }
+
 
 
     archiveTicket(ticket) {
