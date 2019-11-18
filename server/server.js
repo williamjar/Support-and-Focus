@@ -25,7 +25,8 @@ function getTime(){
 }
 
 // get all tickets
-app.get("/tickets" , (req, res) => {
+app.get("/tickets/priority/:priority", (req, res) => {
+    console.log([req.params.priority]);
     console.log("GET: retrieves tickets");
     pool.getConnection((err, connection) => {
       console.log("Connected to database");
@@ -36,7 +37,7 @@ app.get("/tickets" , (req, res) => {
         });
       } else {
         connection.query(
-          "SELECT * FROM ticket ORDER BY post_date DESC",
+          "SELECT * FROM ticket WHERE priority=? ORDER BY post_date DESC",[req.params.priority],
           (err, rows) => {
             connection.release();
             if (err) {
@@ -53,6 +54,45 @@ app.get("/tickets" , (req, res) => {
       }
     });
   });
+
+app.put("/tickets", (req, res) => {
+    console.log("Oppdaterer ticket");
+    pool.getConnection((err, connection) => {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved kobling til databasen");
+            res.json({
+                error: "Feil ved oppkobling"
+            });
+        } else {
+            var val = [
+                req.body.headline,
+                req.body.content,
+                req.body.priority,
+                req.body.category,
+                req.body.picture,
+                getTime(),
+                req.body.author,
+                req.body.ticket_id
+            ];
+            connection.query(
+                "UPDATE ticket SET headline=?,content=?,priority=?,category=?,picture=?,post_date=?,author=? WHERE ticket_id =?",val,
+                (err, rows) => {
+                    connection.release();
+                    if (err) {
+                        console.log(err);
+                        res.json({
+                            error: "error queying"
+                        });
+                    } else {
+                        console.log(rows);
+                        res.json(rows);
+                    }
+                }
+            );
+        }
+    });
+});
 
 app.get("/archive", (req, res) => {
     console.log("GET: henter artikkelliste");
@@ -82,8 +122,6 @@ app.get("/archive", (req, res) => {
 
   // create ticket with post
 app.post("/create_ticket", (req, res) => {
-    console.log("Printer req " + req.body.headline);
-    console.log("Printer res " + res);
   console.log("Fikk POST-Request fra klienten");
   pool.getConnection((err, connection) => {
     if (err) {
@@ -99,7 +137,6 @@ app.post("/create_ticket", (req, res) => {
         getTime(),
         req.body.author
       ];
-      console.log(req.body.author);
       connection.query(
         "INSERT INTO ticket(headline, content, priority, category, picture, post_date, author) VALUES (?,?,?,?,?,?,?)",
         val,

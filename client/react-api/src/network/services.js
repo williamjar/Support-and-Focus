@@ -29,8 +29,13 @@ class TicketService {
     }
 
 
-    getTickets(parameter) {
-        return axios.get<Ticket[]>('/tickets',parameter).then(response => response.data);
+    getTickets(priority : number) : Promise<any> {
+        return axios.get<Ticket[]>('/tickets/priority/'+ priority).then(response => response.data);
+    }
+
+    updateTicketPriority(json : Object) : Promise<any>{
+        console.log(json);
+        return axios.put('/tickets', json);
     }
 
     getArchive() {

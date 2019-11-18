@@ -11,7 +11,7 @@ export class ArchiveList extends Component {
 
     render() {
         return (
-            <Container className="m-auto">
+            <div className="card m-4 bg-dark text-white">
                 <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>
                     <thead>
                     <tr>
@@ -46,7 +46,8 @@ export class ArchiveList extends Component {
                 ))}
                     </tbody>
                 </Table>
-            </Container>
+            </div>
+
         )
     }
 

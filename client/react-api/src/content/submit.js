@@ -13,7 +13,7 @@ export class SubmitForm extends React.Component {
         this.state = {
             headline : null,
             content : null,
-            priority : 1,
+            priority : 2,
             category : null,
             picture : null,
             post_date : '2019-03-15 01:01:22',
@@ -61,7 +61,7 @@ export class SubmitForm extends React.Component {
                             </Form.Group>
 
                             <Form.Group>
-                                <Form.Control type="text" maxLength="255"  name="category" placeholder="Describe the category" value={this.state.category} onChange={this.handleInputChange} />
+                                <Form.Control type="email" name="category" placeholder="Enter your email" value={this.state.category} onChange={this.handleInputChange} />
                             </Form.Group>
 
                             <Form.Group>

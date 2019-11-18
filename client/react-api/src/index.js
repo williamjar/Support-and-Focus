@@ -4,7 +4,7 @@ import { HashRouter, Route, NavLink } from 'react-router-dom';
 import React from 'react'
 import { Component } from 'react-simplified';
 import { Alert, NavBar, Card, Row, Column} from './widgets';
-import {TicketList, HighlightedTicket} from './content/tickets';
+import {TicketList, HighlightedTicket, EditTicket} from './content/tickets';
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
@@ -56,7 +56,7 @@ if (root)
                     <Route exact path="/" component={Faq} />
                     <Route exact path="/" component={SubmitForm} />
                 </div>
-                <div className="container">
+                <div class="container-fluid">
                 <Route path="/tickets" component={HighlightedTicket} />
                 <Route path="/tickets" component={TicketList} />
                 </div>

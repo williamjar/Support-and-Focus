@@ -2,34 +2,36 @@
 
 import {Component} from "react-simplified";
 import {Ticket, ticketService} from "../network/services";
-import {Button, Card, ListGroup, Container, Table} from "react-bootstrap";
+import {Button, Card, ListGroup, Container, Table, Row,Col, Form} from "react-bootstrap";
 import {Alert} from "../widgets";
 import React from 'react';
 
 export class HighlightedTicket extends Component {
     tickets: Ticket[] = [];
-
     render() {
         return (
             <div class="card-deck">
                 {this.tickets.map(ticket => (
                     <div className="col-lg-4">
                         <div class="card m-4 bg-dark text-white">
+                            <Button variant="outline-primary" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
                             <div className="card-header"><h5
-                                className="card-title">{"Order number: " + ticket.headline}</h5></div>
+                                className="card-title">{"Order number: " + ticket.headline}</h5>
+                            </div>
                             <div class="card-body">
-                                <img className="card-img-top" src={ticket.picture}/>
+                                <img className="card-img-top img-fluid" alt={ticket.headline} src={ticket.picture}/>
                                 <p className="card-subtitle m-2">{ticket.content}</p>
                             </div>
                             <div className="card-footer">
                                 <p className="card-text">Ticket number: {ticket.ticket_id}</p>
                                 <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
+                                <p className="card-subtitle mb-2"><Button variant="link" onClick={() => this.sendEmail(ticket)}>{}Contact</Button></p>
                                 <p className="card-text"><small
                                     className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
+
                             </div>
-                            <Button variant="danger m-4">Contact customer now</Button>
-                            <Button variant="success m-4" onClick={() => this.archiveTicket(ticket)}>{}Mark as
-                                solved</Button>
+                                <Button variant="info mt-2 mr-3 ml-3">Comment</Button>
+                                <Button variant="danger mb-4 mt-2 mr-3 ml-3" onClick={() => this.archiveTicket(ticket)}>{}Mark as solved</Button>
                         </div>
                     </div>
                 ))}
@@ -37,12 +39,33 @@ export class HighlightedTicket extends Component {
         )
     }
 
+    deFocusTicket(ticket){
+        window.location.reload();
+        let json: {} = {
+            "ticket_id": ticket.ticket_id,
+            "headline": ticket.headline,
+            "content": ticket.content,
+            "priority": 2,
+            "category": ticket.category,
+            "picture": ticket.picture,
+            "post_date": ticket.post_date,
+            "author": ticket.author
+        };
+        ticketService.updateTicketPriority(json);
+
+    }
+
     mounted() {
         ticketService
-            .getTickets()
+            .getTickets(1)
             .then(tickets => (this.tickets = tickets))
             .catch((error: Error) => Alert.danger(error.message));
 
+    }
+
+    sendEmail(ticket){
+        let url = ticket.category;
+        let win = window.open('mailto:'+url, '_blank');
     }
     convertDateTimeFromSQL(date) {
         var str = date.split('-');
@@ -59,14 +82,30 @@ export class HighlightedTicket extends Component {
         return 'Time posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
 
     }
+    archiveTicket(ticket) {
+        console.log(ticket.post_date);
+        let json: {} = {
+            "ticket_id": ticket.ticket_id,
+            "headline": ticket.headline,
+            "content": ticket.content,
+            "priority": ticket.priority,
+            "category": ticket.category,
+            "picture": ticket.picture,
+            "post_date": ticket.post_date,
+            "author": ticket.author
+        };
+
+        ticketService.deleteTicket(json);
+        window.location.reload();
+    }
 }
 
 export class TicketList extends Component {
     tickets: Ticket[] = [];
-
     render() {
         return (
-            <Container className="m-auto">
+
+                <div className="card m-4 bg-dark text-white">
                 <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>
                     <thead>
                     <tr>
@@ -84,7 +123,7 @@ export class TicketList extends Component {
                     {this.tickets.map(ticket => (
                         <tr>
                             <td>
-                                <Button variant="primary">Focus</Button>
+                                <Button variant="primary" onClick={() => this.focusTicket(ticket)}>Focus</Button>
                             </td>
                             <td>{ticket.ticket_id}</td>
                             <td>{ticket.author}</td>
@@ -93,26 +132,46 @@ export class TicketList extends Component {
                             <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
 
                             <td>
-                                <Button variant="success">Mark as solved</Button>
+                                <Button variant="danger">Mark as solved</Button>
                             </td>
                         </tr>
                     ))}
                     </tbody>
                 </Table>
-            </Container>
+                </div>
+
         )
     }
 
-    mounted() {
+    focusTicket(ticket){
+        let json: {} = {
+            "ticket_id": ticket.ticket_id,
+            "headline": ticket.headline,
+            "content": ticket.content,
+            "priority": 1,
+            "category": ticket.category,
+            "picture": ticket.picture,
+            "post_date": ticket.post_date,
+            "author": ticket.author
+        };
+        window.location.reload();
+        ticketService.updateTicketPriority(json);
+
+
+    }
+
+    mounted() : void{
         ticketService
-            .getTickets()
-            .then(tickets => (this.tickets = tickets))
+            .getTickets(2).then(tickets => (this.tickets = tickets))
+
+
             .catch((error: Error) => Alert.danger(error.message));
 
     }
 
 
     archiveTicket(ticket) {
+        window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
             "headline": ticket.headline,
@@ -123,9 +182,7 @@ export class TicketList extends Component {
             "post_date": ticket.post_date,
             "author": ticket.author
         };
-
         ticketService.deleteTicket(json);
-        window.location.reload();
     }
 
     convertDateTimeFromSQL(date) {
@@ -149,6 +206,6 @@ export class TicketList extends Component {
 
     }
 
-    //lag en json her fra infoen
 }
+
 
