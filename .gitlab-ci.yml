@@ -1,0 +1,24 @@
+image: node: 8
+
+services:
+    - mysql:5.5
+
+
+variables:
+    MYSQL_DATABASE: supertestdb
+    MYSQL_ROOT_PASSWORD: secret
+
+before_script:
+    - npm install
+    
+run_tests:
+    stage: test
+    script:
+        - cd server && npm install && npm test
+     artifacts:
+        paths:
+         - coverage/
+
+
+
+
