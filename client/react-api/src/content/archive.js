@@ -1,15 +1,35 @@
 // @flow
 import {Component} from "react-simplified";
 import {Archive, Ticket, ticketService} from "../network/services";
-import {Button, ListGroup, Table, Row, Card, Container} from "react-bootstrap";
+import {Button, ListGroup, Table, Row,Modal, Card, Container} from "react-bootstrap";
 import {Alert} from "../widgets";
 import React from 'react';
 
 export class ArchiveList extends Component {
+    showConfirmationDialog = false;
+    candidateTicket = ;
     archive: Archive[] = [];
 
 
     render() {
+        if(this.showConfirmationDialog){
+            return(
+                <Modal.Dialog>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modal title</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        <p>Are you sure you want to delete this archived ticket forever</p>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button variant="secondary">Close</Button>
+                        <Button variant="danger" onClick={() => this.deleteArchivedTicket()}>Delete</Button>
+                    </Modal.Footer>
+                </Modal.Dialog>
+            )
+        }
         return (
             <div className="card m-4 bg-dark text-white">
                 <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>
@@ -20,7 +40,6 @@ export class ArchiveList extends Component {
                         <th>Order Number</th>
                         <th>Content</th>
                         <th>Archived date</th>
-                        <th>Reopen</th>
                         <th>Delete (GDPR)</th>
                     </tr>
                     </thead>
@@ -33,22 +52,37 @@ export class ArchiveList extends Component {
                             <td>{this.shortenString(ticket.content, 20)}</td>
                             <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
                             <td>
-                                <Button variant="warning">Reopen ticket</Button>
-                            </td>
-                            <td>
-                                <Button variant="danger">Delete forever</Button>
+                                <Button onClick={() => this.confirm(ticket)} variant="danger" >Delete forever</Button>
                             </td>
                         </tr>
-
-
-
-
                 ))}
                     </tbody>
                 </Table>
             </div>
-
         )
+    }
+
+    confirm(ticket){
+        this.candidateTicket = ticket;
+        this.showConfirmationDialog=true;
+    }
+
+    deleteArchivedTicket(){
+        ticket = this.candidateTicket;
+        window.location.reload();
+        let json: {} = {
+            "ticket_id": this.candidateTicket.ticket_id,
+            "headline": ticket.headline,
+            "content": ticket.content,
+            "priority": ticket.priority,
+            "picture": ticket.picture,
+            "post_date": ticket.post_date,
+            "email":ticket.email,
+            "group_id":ticket.group_id,
+            "author": ticket.author
+        };
+
+        ticketService.deleteArchivedTicket(json);
     }
 
     shortenString(text, chars){
@@ -84,6 +118,7 @@ export class ArchiveList extends Component {
         return 'Time archived: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
 
     }
+
 
 
     //lag en json her fra infoen

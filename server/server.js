@@ -268,4 +268,35 @@ app.delete("/delete_ticket", (req, res) => {
   });
 });
 
+
+app.delete("/delete_archive", (req, res) => {
+    console.log("deleting arhived ticket");
+    pool.getConnection((err, connection) => {
+        if(err) {
+            console.log("Feil ved oppkobling");
+            res.json("Feil ved oppkobling");
+        } else{
+            console.log("Oppkoblet mot databasekontakt" + req.body.ticket_id);
+            var val = [req.body.ticket_id];
+
+            connection.query(
+                "DELETE FROM archive WHERE ticket_id = ?", val,
+                err => {
+                    connection.release();
+                    if(err) {
+                        console.log(errorMessage);
+                        res.status(500);
+                        res.json({
+                            error: "Feil ved sletting"
+                        });
+                    } else {
+                        console.log("Sletting ok"+ req.body.ticket_id);
+                        res.send(" ");
+                    }
+                }
+            );
+        }
+    });
+});
+
 let server = app.listen(4000);

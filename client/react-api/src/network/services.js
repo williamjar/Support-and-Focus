@@ -32,7 +32,6 @@ class TicketService {
         return axios.post<>('/create_ticket', json);
     }
 
-
     getTickets(priority : number) : Promise<any> {
         console.log(this.tickets[1]);
         return axios.get<Ticket[]>('/tickets/priority/'+ priority).then(res => (this.tickets = res.data));
@@ -45,6 +44,10 @@ class TicketService {
 
     getArchive() {
         return axios.get<Archive[]>('/archive').then(response => response.data);
+    }
+
+    deleteArchivedTicket(json){
+        axios.delete<>('/delete_archive', {data : json});
     }
 
     solveTicket(json : Object){
