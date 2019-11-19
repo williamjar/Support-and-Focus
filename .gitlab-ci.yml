@@ -17,7 +17,7 @@ before_script:
 run_tests:
   stage: test
   script:
-    - cd klient && npm install && npm test
+    - cd client/react-api && npm install && npm test
   artifacts:
     paths:
       - coverage/
