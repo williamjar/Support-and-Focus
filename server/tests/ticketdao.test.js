@@ -31,5 +31,5 @@ test("get all tickets from db", done => {
         expect(data.length).toBeGreaterThan(0);
         done();
     }
-    ticketDao.getAllTickets(callback);
+    ticketdao.getAllTickets(callback);
 });
