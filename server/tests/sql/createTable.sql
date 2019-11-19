@@ -1,8 +1,5 @@
 drop table if exists comments;
 drop table  if exists article;
-drop table  if exists group;
-
-
 
 CREATE TABLE ticket(
                        ticket_id int NOT NULL AUTO_INCREMENT,
@@ -38,10 +35,3 @@ CREATE TABLE archive(
                        author VARCHAR(255),
                        PRIMARY KEY(ticket_id)
 )
-
-CREATE TABLE group_list(
-                    group_id int NOT NULL AUTO_INCREMENT,
-                    group_name VARCHAR(255),
-                    PRIMARY KEY(group_id)
-);
-
