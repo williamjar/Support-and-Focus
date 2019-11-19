@@ -7,7 +7,6 @@ import React from 'react';
 
 export class ArchiveList extends Component {
     showConfirmationDialog = false;
-    candidateTicket = ;
     archive: Archive[] = [];
 
 
@@ -52,7 +51,7 @@ export class ArchiveList extends Component {
                             <td>{this.shortenString(ticket.content, 20)}</td>
                             <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
                             <td>
-                                <Button onClick={() => this.confirm(ticket)} variant="danger" >Delete forever</Button>
+                                <Button variant="danger" >Delete forever</Button>
                             </td>
                         </tr>
                 ))}
@@ -62,28 +61,6 @@ export class ArchiveList extends Component {
         )
     }
 
-    confirm(ticket){
-        this.candidateTicket = ticket;
-        this.showConfirmationDialog=true;
-    }
-
-    deleteArchivedTicket(){
-        ticket = this.candidateTicket;
-        window.location.reload();
-        let json: {} = {
-            "ticket_id": this.candidateTicket.ticket_id,
-            "headline": ticket.headline,
-            "content": ticket.content,
-            "priority": ticket.priority,
-            "picture": ticket.picture,
-            "post_date": ticket.post_date,
-            "email":ticket.email,
-            "group_id":ticket.group_id,
-            "author": ticket.author
-        };
-
-        ticketService.deleteArchivedTicket(json);
-    }
 
     shortenString(text, chars){
         if(text == null || text == " ") return "no content";
@@ -118,9 +95,5 @@ export class ArchiveList extends Component {
         return 'Time archived: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
 
     }
-
-
-
-    //lag en json her fra infoen
 }
 
