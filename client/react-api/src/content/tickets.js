@@ -9,6 +9,20 @@ import React from 'react';
 export class HighlightedTicket extends Component {
     tickets: Ticket[] = [];
     render() {
+        if (this.tickets === undefined || this.tickets.length == 0) {
+            return(
+                <div className="card m-4 bg-dark text-white align-items-center">
+                    <div className="card-body">
+                        <br></br>
+                        <h4 class={"text-center"}>Find a ticket to <span className={"text-primary"}>focus</span> on below!</h4>
+                        <br></br>
+                        <p class={"text-center"}>When you <span class={"text-primary"}>focus</span> a ticket, it will appear here with easy accessibility to support tools.</p>
+                        <br></br>
+                    </div>
+                    <br></br>
+                </div>
+            )
+        } else {
         return (
             <div class="card-deck">
                 {this.tickets.map(ticket => (
@@ -36,7 +50,7 @@ export class HighlightedTicket extends Component {
                     </div>
                 ))}
             </div>
-        )
+        )}
     }
 
     deFocusTicket(ticket){

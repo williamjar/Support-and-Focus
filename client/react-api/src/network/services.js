@@ -1,6 +1,9 @@
 // @flow
+import * as React from 'react';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
+import {sharedComponentData} from "react-simplified";
 export class Ticket {
     ticket_id : number;
     headline : String;
@@ -22,6 +25,7 @@ export class Archive {
 }
 
 class TicketService {
+    tickets : Ticket[] = [];
 
     createTicket(json : Object) {
         console.log(json);
@@ -30,7 +34,8 @@ class TicketService {
 
 
     getTickets(priority : number) : Promise<any> {
-        return axios.get<Ticket[]>('/tickets/priority/'+ priority).then(response => response.data);
+        console.log(this.tickets[1]);
+        return axios.get<Ticket[]>('/tickets/priority/'+ priority).then(res => (this.tickets = res.data));
     }
 
     updateTicketPriority(json : Object) : Promise<any>{
@@ -49,4 +54,4 @@ class TicketService {
 
 }
 
-export let ticketService = new TicketService();
+export let ticketService = sharedComponentData(new TicketService());

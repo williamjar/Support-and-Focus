@@ -5,13 +5,16 @@ import React from 'react'
 import { Component } from 'react-simplified';
 import { Alert, NavBar, Card, Row, Column} from './widgets';
 import {TicketList, HighlightedTicket, EditTicket} from './content/tickets';
+import {LiveFeed} from "./content/livefeed";
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
+
 import { Ticket, ticketService } from './network/services';
 import { Button } from 'react-bootstrap';
 
 import {createHashHistory} from 'history';
+import {PasswordForm} from "./content/loginpage";
 
 const history = createHashHistory();
 
@@ -57,11 +60,12 @@ if (root)
                     <Route exact path="/" component={SubmitForm} />
                 </div>
                 <div class="container-fluid">
-                <Route path="/tickets" component={HighlightedTicket} />
-                <Route path="/tickets" component={TicketList} />
+                    <Route path="/tickets" component={LiveFeed} />
+                    <Route path="/tickets" component={HighlightedTicket} />
+                    <Route path="/tickets" component={TicketList} />
                 </div>
-                <Route path="/faq" component={Faq} />
-                <Route path="/archive" component={ArchiveList} />
+                    <Route path="/faq" component={Faq} />
+                    <Route path="/archive" component={ArchiveList} />
                 <Footer />
             </div>
         </HashRouter>,
