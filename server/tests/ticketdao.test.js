@@ -1,6 +1,6 @@
 let mysql = require("mysql");
 
-const ticketDao = require("./articledao.js");
+const ticketDao = require("./ticketdao.js");
 let pool = require("./connectionDB")
 const runsqlfile = require("./runsqlfile.js");
 
