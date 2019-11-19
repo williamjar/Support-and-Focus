@@ -69,14 +69,15 @@ app.put("/tickets", (req, res) => {
                 req.body.headline,
                 req.body.content,
                 req.body.priority,
-                req.body.category,
                 req.body.picture,
                 getTime(),
+                req.body.email,
+                req.body.group_id,
                 req.body.author,
                 req.body.ticket_id
             ];
             connection.query(
-                "UPDATE ticket SET headline=?,content=?,priority=?,category=?,picture=?,post_date=?,author=? WHERE ticket_id =?",val,
+                "UPDATE ticket SET headline=?,content=?,priority=?,picture=?,post_date=?,email=?,group_id=?,author=? WHERE ticket_id =?",val,
                 (err, rows) => {
                     connection.release();
                     if (err) {
@@ -128,17 +129,20 @@ app.post("/create_ticket", (req, res) => {
       console.log("Feil ved oppkobling");
       res.json("Feil ved oppkobling");
     } else {
+
       var val = [
         req.body.headline,
         req.body.content,
         req.body.priority,
-        req.body.category,
         req.body.picture,
         getTime(),
+        req.body.email,
+        req.body.group_id,
         req.body.author
       ];
-      connection.query(
-        "INSERT INTO ticket(headline, content, priority, category, picture, post_date, author) VALUES (?,?,?,?,?,?,?)",
+        console.log(val);
+        connection.query(
+        "INSERT INTO ticket(headline, content, priority, picture, post_date,email,group_id, author) VALUES (?,?,?,?,?,?,?,?)",
         val,
         err => {
           connection.release();
@@ -206,14 +210,15 @@ app.post("/archive_ticket", (req, res) => {
                 req.body.headline,
                 req.body.content,
                 req.body.priority,
-                req.body.category,
                 req.body.picture,
                 getTime(),
-                req.body.author
+                req.body.email,
+                req.body.group_id,
+                req.body.author,
+                req.body.ticket_id
             ];
-
             connection.query(
-                "INSERT INTO archive(ticket_id, headline, content, priority, category, picture, post_date, author) VALUES (?,?,?,?,?,?,?,?)",
+                "INSERT INTO archive(ticket_id, headline, content, priority, picture, post_date,email,group_id, author) VALUES (?,?,?,?,?,?,?,?,?) ",
                 val,
                 err => {
                     connection.release();

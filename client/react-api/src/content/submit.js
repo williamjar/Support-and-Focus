@@ -14,9 +14,10 @@ export class SubmitForm extends React.Component {
             headline : null,
             content : null,
             priority : 2,
-            category : null,
             picture : null,
             post_date : '2019-03-15 01:01:22',
+            email: null,
+            group_id: 1,
             author : null
         };
 
@@ -84,8 +85,6 @@ export class SubmitForm extends React.Component {
 
     submitTicket() {
         ticketService.createTicket(this.state);
-
-
         }
 
 }

@@ -47,7 +47,7 @@ class TicketService {
         return axios.get<Archive[]>('/archive').then(response => response.data);
     }
 
-    deleteTicket(json : Object){
+    solveTicket(json : Object){
         axios.post<>('/archive_ticket', json);
         axios.delete<>('/delete_ticket', {data : json});
     }

@@ -60,9 +60,10 @@ export class HighlightedTicket extends Component {
             "headline": ticket.headline,
             "content": ticket.content,
             "priority": 2,
-            "category": ticket.category,
             "picture": ticket.picture,
             "post_date": ticket.post_date,
+            "email":ticket.email,
+            "group_id":ticket.group_id,
             "author": ticket.author
         };
         ticketService.updateTicketPriority(json);
@@ -103,13 +104,14 @@ export class HighlightedTicket extends Component {
             "headline": ticket.headline,
             "content": ticket.content,
             "priority": ticket.priority,
-            "category": ticket.category,
             "picture": ticket.picture,
             "post_date": ticket.post_date,
+            "email":ticket.email,
+            "group_id":ticket.group_id,
             "author": ticket.author
         };
 
-        ticketService.deleteTicket(json);
+        ticketService.solveTicket(json);
         window.location.reload();
     }
 }
@@ -163,9 +165,10 @@ export class TicketList extends Component {
             "headline": ticket.headline,
             "content": ticket.content,
             "priority": 1,
-            "category": ticket.category,
             "picture": ticket.picture,
             "post_date": ticket.post_date,
+            "email":ticket.email,
+            "group_id":ticket.group_id,
             "author": ticket.author
         };
         window.location.reload();
