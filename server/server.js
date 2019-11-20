@@ -56,7 +56,7 @@ app.get("/tickets/priority/:priority", (req, res) => {
   });
 
 app.put("/tickets", (req, res) => {
-    console.log("Oppdaterer ticket");
+    console.log(req);
     pool.getConnection((err, connection) => {
         console.log("Connected to database");
         if (err) {

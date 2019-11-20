@@ -33,12 +33,14 @@ class TicketService {
     }
 
     getTickets(priority : number) : Promise<any> {
-        console.log(this.tickets[1]);
-        return axios.get<Ticket[]>('/tickets/priority/'+ priority).then(res => (this.tickets = res.data));
+        return axios.get<Ticket[]>('/tickets/priority/'+ priority);
+    }
+
+    getLatestTickets() : Promise<any> {
+
     }
 
     updateTicketPriority(json : Object) : Promise<any>{
-        console.log(json);
         return axios.put('/tickets', json);
     }
 

@@ -1,22 +1,17 @@
 // @flow
 import ReactDOM from 'react-dom';
-import { HashRouter, Route, NavLink } from 'react-router-dom';
+import { HashRouter, Route} from 'react-router-dom';
 import React from 'react'
 import { Component } from 'react-simplified';
-import { Alert, NavBar, Card, Row, Column} from './widgets';
-import {TicketList, HighlightedTicket, EditTicket} from './content/tickets';
+import { Alert, NavBar} from './widgets';
+import {TicketList, FocusedTicket} from './content/tickets';
 import {LiveFeed} from "./content/livefeed";
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
 
-import { Ticket, ticketService } from './network/services';
-import { Button } from 'react-bootstrap';
-
-import {createHashHistory} from 'history';
-import {PasswordForm} from "./content/loginpage";
-
-const history = createHashHistory();
+//import {createHashHistory} from 'history';
+//const history = createHashHistory();
 
 //menu for navigation
 class Menu extends Component {
@@ -61,7 +56,7 @@ if (root)
                 </div>
                 <div class="container-fluid">
                     <Route path="/tickets" component={LiveFeed} />
-                    <Route path="/tickets" component={HighlightedTicket} />
+                    <Route path="/tickets" component={FocusedTicket} />
                     <Route path="/tickets" component={TicketList} />
                 </div>
                     <Route path="/faq" component={Faq} />

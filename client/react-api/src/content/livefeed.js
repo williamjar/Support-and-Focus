@@ -4,33 +4,25 @@ import {Alert, Col, Row, CardColumns} from "react-bootstrap";
 import React from 'react'
 
 export class LiveFeed extends Component{
-
+    tickets : Ticket[] = [];
     value : number = 60;
 
     render(){
         return(
             <div>
+                {this.tickets.map(ticket => (
             <div className="rollingNews">
             <div>
-                <p>Here comes a livefeed</p>
+                <p>Here comes a livefeed {ticket.headline}</p>
             </div>
             </div>
+                ))}
             </div>
         )
     }
 
     //<div id="rollText">{ticketService.tickets.map(e => `${e.headline} /`)} </div>
     mounted() : void{
-        setInterval(a => this.animateLiveFeed(),15);
-        ticketService.getTickets(2);
-    }
-
-    animateLiveFeed() : void{
-        if(this.value<-70){
-            this.value = 60;
-        }
-
-
 
     }
 }

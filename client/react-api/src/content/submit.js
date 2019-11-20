@@ -38,7 +38,6 @@ export class SubmitForm extends React.Component {
         event.preventDefault();
         if(this.submitTicket()) alert("Thank you for your submission!");
         window.location.reload();
-
     }
 
     render() {
