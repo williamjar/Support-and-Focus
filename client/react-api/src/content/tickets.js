@@ -13,6 +13,7 @@ export class FocusedTicket extends React.Component {
     }
 
     deFocusTicket(ticket) {
+        window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
             "headline": ticket.headline,
@@ -28,18 +29,46 @@ export class FocusedTicket extends React.Component {
     }
 
     render() {
+        if(this.state.tickets.length < 1){
+                return (
+                    <div className="card-deck">
+                    <div className="col-lg-4">
+                    <Card className="m-4" style={{ width: '21rem' }}>
+                        <Button variant="outline-dark" disabled={true}><br></br></Button>
+                        <div className="card-header"><h5
+                            className="card-title text-center"><span className="text-primary">Focus</span> to place a ticket here</h5>
+                        </div>
+                        <div className="card-body">
+                            <img className="card-img-top img-fluid" />
+                            <p className="card-subtitle m-2"><span className="text-primary">Focus</span> a ticket from the list below to move it here, and get access to additional support tools</p>
+                            <br></br>
+                            <br></br>
+                        </div>
+
+                        <div className="card-footer">
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                        </div>
+                            <br></br>
+                            <br></br>
+                    </Card>
+                    </div>
+                    </div>
+                )
+        };
         return (
             <div class="card-deck">
                 {this.state.tickets.map(ticket =>(
                     <div className="col-lg-4">
-                            <div className="card m-4 bg-dark text-white">
+                            <Card className="m-4 bg-dark text-white" >
                                 <Button variant="outline-primary" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
                                     <div className="card-header"><h5
                                         className="card-title">{"Order number: " + ticket.headline}</h5>
                                     </div>
                                 <div className="card-body">
-                                    <img className="card-img-top img-fluid" alt={ticket.headline}
-                                         src={ticket.picture}/>
+                                    <img className="card-img-top img-fluid" alt={ticket.headline} src={ticket.picture}/>
                                     <p className="card-subtitle m-2">{ticket.content}</p>
                                 </div>
                                 <div className="card-footer">
@@ -50,7 +79,7 @@ export class FocusedTicket extends React.Component {
                                 </div>
                                 <Button variant="info mt-2 mr-3 ml-3">Comment</Button>
                                 <Button variant="danger mb-4 mt-2 mr-3 ml-3" onClick={() => this.archiveTicket(ticket)}>Mark as solved</Button>
-                            </div>
+                            </Card>
                     </div>
                 ))}
             </div>
@@ -146,7 +175,7 @@ export class TicketList extends React.Component {
     }
 
     focusTicket(ticket){
-
+        window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
             "headline": ticket.headline,
@@ -196,7 +225,8 @@ export class TicketList extends React.Component {
         return 'Time posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
 
     }
-
 }
+
+
 
 
