@@ -67,7 +67,7 @@ app.get("/comments/ticket_id/:ticket_id", (req, res) => {
             });
         } else {
             connection.query(
-                "SELECT * FROM comment WHERE ticket_id=? ORDER BY post_date DESC",[req.params.ticket_id],
+                "SELECT * FROM comment WHERE ticket_id=? ORDER BY post_date",[req.params.ticket_id],
                 (err, rows) => {
                     connection.release();
                     if (err) {
@@ -100,14 +100,13 @@ app.put("/tickets", (req, res) => {
                 req.body.content,
                 req.body.priority,
                 req.body.picture,
-                getTime(),
                 req.body.email,
                 req.body.group_id,
                 req.body.author,
                 req.body.ticket_id
             ];
             connection.query(
-                "UPDATE ticket SET headline=?,content=?,priority=?,picture=?,post_date=?,email=?,group_id=?,author=? WHERE ticket_id =?",val,
+                "UPDATE ticket SET headline=?,content=?,priority=?,picture=?,email=?,group_id=?,author=? WHERE ticket_id =?",val,
                 (err, rows) => {
                     connection.release();
                     if (err) {
@@ -193,7 +192,7 @@ app.post("/create_ticket", (req, res) => {
 });
 
  // publish a comment
-app.post("/comment", (req, res) => {
+app.post("/create_comment", (req, res) => {
   console.log("Fikk POST-Request fra klienten");
   pool.getConnection((err, connection) => {
     if (err) {
@@ -204,7 +203,7 @@ app.post("/comment", (req, res) => {
       var val = [
         req.body.content,
         req.body.priority,
-        req.body.post_date,
+        getTime(),
         req.body.ticket_id
       ];
       connection.query(

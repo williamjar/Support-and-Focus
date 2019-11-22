@@ -18,7 +18,7 @@ import {Comment} from './content/comment';
 class Menu extends Component {
     render() {
         return (
-            <NavBar brand="Mekanisk Support Dashboard">
+            <NavBar variant="dark" brand="Mekanisk Support Dashboard" >
                 <NavBar.Link to="/tickets">Tickets</NavBar.Link>
                 <NavBar.Link to="/archive">Archive</NavBar.Link>
             </NavBar>

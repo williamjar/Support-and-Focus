@@ -28,7 +28,7 @@ class TicketService {
 
     createComment(json : Object) {
         console.log(json);
-        return axios.post<>('/comment', json);
+        return axios.post<>('/create_comment', json);
     }
 
     getTickets(priority : number) : Promise<any> {

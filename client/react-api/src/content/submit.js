@@ -9,12 +9,11 @@ import React, {useDebugValue} from 'react';
 export class SubmitForm extends React.Component {
     constructor(props){
         super(props);
-
         this.state = {
-            headline : null,
+            headline : '',
             content : null,
             priority : 2,
-            picture : null,
+            picture : 'https://i.imgur.com/MLt67H9.jpg',
             post_date : '2019-03-15 01:01:22',
             email: null,
             group_id: 1,
@@ -29,12 +28,12 @@ export class SubmitForm extends React.Component {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
+        console.log(value);
 
         this.setState({[name]: value,});
     }
 
     handleSubmit(event) {
-        console.log(this.state);
         event.preventDefault();
         if(this.submitTicket()) alert("Thank you for your submission!");
         window.location.reload();
@@ -47,7 +46,7 @@ export class SubmitForm extends React.Component {
                                 <div class="m-4">
                         <Form onSubmit = {this.handleSubmit}>
                             <Form.Group>
-                                <Form.Control type="number" name="headline" placeholder="Enter order number" value={this.state.headline} onChange={this.handleInputChange} />
+                                <Form.Control name="headline" placeholder="Enter order number" value={this.state.headline} onChange={this.handleInputChange} />
                                 <Form.Text> This field only accept numbers </Form.Text>
                             </Form.Group>
 
@@ -70,19 +69,18 @@ export class SubmitForm extends React.Component {
 
                             <div class="card-footer">
                             <Form.Group>
-                                <Button disabled={this.headline=null} variant="btn btn-primary btn-lg" type="submit"> Submit </Button>
+                                <Button disabled={this.state.headline=null} variant="btn btn-primary btn-lg" type="submit"> Submit </Button>
                             </Form.Group>
                             </div>
 
                         </Form>
                                 </div>
                             </div>
-
-
         )
     }
 
     submitTicket() {
+        alert(this.state.headline);
         ticketService.createTicket(this.state);
         }
 

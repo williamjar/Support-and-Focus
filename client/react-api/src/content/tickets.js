@@ -1,23 +1,23 @@
 // @flow
 
+import {useState} from 'react';
 import {ticketService} from "../network/services";
-import {Button, Card, Collapse, ListGroup, Container, Table, Navbar, Row,Col, Form} from "react-bootstrap";
+import {Button, Card, Accordion, Collapse, ListGroup, Container, Table, Navbar, Row,Col, Form} from "react-bootstrap";
 import React from 'react';
 import { HashRouter, Route, NavLink } from 'react-router-dom';
-import {Comments} from "./comment";
+import {Comments, CommentSubmit} from "./comment";
 import { createHashHistory } from 'history';
 const history = createHashHistory();
 
 
+
 export class FocusedTicket extends React.Component {
-
-
-
     constructor(props) {
         super(props);
         this.state = {
             tickets : [],
         };
+
     }
 
     deFocusTicket(ticket) {
@@ -36,6 +36,19 @@ export class FocusedTicket extends React.Component {
         ticketService.updateTicketPriority(json);
     }
 
+    convertDateTimeFromSQL(date) {
+        var str = date.split('-');
+        var year = str[0];
+        var month = str[1];
+        var rest = str[2];
+        var time = rest.split('T');
+        var day = time[0];
+        var restTime = time[1].split(':');
+        var hour = restTime[0];
+        var minute = restTime[1];
+        return 'Ticket posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
+    }
+
     render() {
         if(this.state.tickets.length < 1){
                 return (
@@ -52,7 +65,6 @@ export class FocusedTicket extends React.Component {
                             <br></br>
                             <br></br>
                         </div>
-
                         <div className="card-footer">
                             <br></br>
                             <br></br>
@@ -67,11 +79,10 @@ export class FocusedTicket extends React.Component {
                 )
         };
         return (
-            <div class="card-deck">
+            <div className="container-fluid content-row">
+                    <div className="row row-sm-6 row-lg-6">
                 {this.state.tickets.map(ticket =>(
-
-
-                    <div key={ticket.ticket_id} className="col-lg-4">
+                    <div className={"h-100 w-25"}>
                             <Card className="m-4 bg-dark text-white" >
                                 <Button variant="outline-primary" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
                                     <div className="card-header"><h5
@@ -86,22 +97,21 @@ export class FocusedTicket extends React.Component {
                                     <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
                                     <p className="card-subtitle mb-2"><Button variant="link">{}Contact</Button></p>
                                     <p className="card-text"><small className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
+                                    <Comments id={ticket.ticket_id}/>
+                                    <br></br>
+                                    <CommentSubmit id={ticket.ticket_id}/>
                                 </div>
                                 <Button variant="danger mb-4 mt-2 mr-3 ml-3" onClick={() => this.archiveTicket(ticket)}>Mark as solved</Button>
-                                <Button variant="info mt-2 mr-3 ml-3" >Comments</Button>
-                                <br></br>
                             </Card>
-
-                        <div className={"Row"}>
-                            <Comments id={ticket.ticket_id}/>
-                        </div>
-
-                        </div>
-
-
+                    </div>
 
                 ))}
-            </div>
+                    </div>
+
+                </div>
+
+
+
         )}
 
     componentDidMount() {
@@ -112,25 +122,9 @@ export class FocusedTicket extends React.Component {
             });
     }
 
-
-
     sendEmail(ticket){
         let url = ticket.category;
         let win = window.open('mailto:'+url, '_blank');
-    }
-
-    convertDateTimeFromSQL(date) {
-        var str = date.split('-');
-        var year = str[0];
-        var month = str[1];
-        var rest = str[2];
-        var time = rest.split('T');
-        var day = time[0];
-        var restTime = time[1].split(':');
-        var hour = restTime[0];
-        var minute = restTime[1];
-        return 'Time posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
-
     }
 
     archiveTicket(ticket) {
@@ -242,7 +236,7 @@ export class TicketList extends React.Component {
         var restTime = time[1].split(':');
         var hour = restTime[0];
         var minute = restTime[1];
-        return 'Time posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
+        return 'Ticket posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
 
     }
 }
