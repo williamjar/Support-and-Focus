@@ -55,6 +55,36 @@ app.get("/tickets/priority/:priority", (req, res) => {
     });
   });
 
+app.get("/comments/ticket_id/:ticket_id", (req, res) => {
+
+    console.log("GET: retrieves comments with ticket_id: " + [req.params.ticket_id] );
+    pool.getConnection((err, connection) => {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved kobling til databasen");
+            res.json({
+                error: "Feil ved oppkobling"
+            });
+        } else {
+            connection.query(
+                "SELECT * FROM comment WHERE ticket_id=? ORDER BY post_date DESC",[req.params.ticket_id],
+                (err, rows) => {
+                    connection.release();
+                    if (err) {
+                        console.log(err);
+                        res.json({
+                            error: "error queying"
+                        });
+                    } else {
+                        console.log(rows);
+                        res.json(rows);
+                    }
+                }
+            );
+        }
+    });
+});
+
 app.put("/tickets", (req, res) => {
     console.log(req);
     pool.getConnection((err, connection) => {
@@ -163,7 +193,7 @@ app.post("/create_ticket", (req, res) => {
 });
 
  // publish a comment
-app.post("/create_comment", (req, res) => {
+app.post("/comment", (req, res) => {
   console.log("Fikk POST-Request fra klienten");
   pool.getConnection((err, connection) => {
     if (err) {
@@ -173,11 +203,12 @@ app.post("/create_comment", (req, res) => {
       console.log("Oppkoblet mot databasekontakt");
       var val = [
         req.body.content,
+        req.body.priority,
         req.body.post_date,
-        req.body.article_id
+        req.body.ticket_id
       ];
       connection.query(
-        "INSERT INTO COMMENT(content,post_date,ticket_id) VALUES (?,?,?)",
+        "INSERT INTO comment(content,priority,post_date,ticket_id) VALUES (?,?,?,?)",
         val,
         err => {
           connection.release();

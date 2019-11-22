@@ -20,6 +20,8 @@ CREATE TABLE comment(
                         PRIMARY KEY (comment_id)
 )
 
+INSERT INTO comment(content, priority, post_date, ticket_id) VALUES('hei dette er en kommentar',1,'2019-10-24 11:28:00',21);
+
 CREATE TABLE archive(
                        ticket_id int,
                        headline VARCHAR(255),

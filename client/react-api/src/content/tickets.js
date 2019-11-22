@@ -1,10 +1,18 @@
 // @flow
 
 import {ticketService} from "../network/services";
-import {Button, Card, ListGroup, Container, Table, Row,Col, Form} from "react-bootstrap";
+import {Button, Card, Collapse, ListGroup, Container, Table, Navbar, Row,Col, Form} from "react-bootstrap";
 import React from 'react';
+import { HashRouter, Route, NavLink } from 'react-router-dom';
+import {Comments} from "./comment";
+import { createHashHistory } from 'history';
+const history = createHashHistory();
+
 
 export class FocusedTicket extends React.Component {
+
+
+
     constructor(props) {
         super(props);
         this.state = {
@@ -61,7 +69,9 @@ export class FocusedTicket extends React.Component {
         return (
             <div class="card-deck">
                 {this.state.tickets.map(ticket =>(
-                    <div className="col-lg-4">
+
+
+                    <div key={ticket.ticket_id} className="col-lg-4">
                             <Card className="m-4 bg-dark text-white" >
                                 <Button variant="outline-primary" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
                                     <div className="card-header"><h5
@@ -77,16 +87,26 @@ export class FocusedTicket extends React.Component {
                                     <p className="card-subtitle mb-2"><Button variant="link">{}Contact</Button></p>
                                     <p className="card-text"><small className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
                                 </div>
-                                <Button variant="info mt-2 mr-3 ml-3">Comment</Button>
                                 <Button variant="danger mb-4 mt-2 mr-3 ml-3" onClick={() => this.archiveTicket(ticket)}>Mark as solved</Button>
+                                <Button variant="info mt-2 mr-3 ml-3" >Comments</Button>
+                                <br></br>
                             </Card>
-                    </div>
+
+                        <div className={"Row"}>
+                            <Comments id={ticket.ticket_id}/>
+                        </div>
+
+                        </div>
+
+
+
                 ))}
             </div>
         )}
 
     componentDidMount() {
-        ticketService.getTickets(1).then(res => {
+        ticketService
+            .getTickets(1).then(res => {
             const tickets = res.data;
             this.setState({tickets})
             });
@@ -226,6 +246,8 @@ export class TicketList extends React.Component {
 
     }
 }
+
+
 
 
 

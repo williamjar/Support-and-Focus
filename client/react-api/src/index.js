@@ -9,6 +9,7 @@ import {LiveFeed} from "./content/livefeed";
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
+import {Comment} from './content/comment';
 
 //import {createHashHistory} from 'history';
 //const history = createHashHistory();
@@ -50,15 +51,10 @@ if (root)
             <div>
                 <Alert />
                 <Menu />
-                <div class="card-columns">
                     <Route exact path="/" component={Faq} />
                     <Route exact path="/" component={SubmitForm} />
-                </div>
-                <div class="container-fluid">
-                    <Route path="/tickets" component={LiveFeed} />
                     <Route path="/tickets" component={FocusedTicket} />
                     <Route path="/tickets" component={TicketList} />
-                </div>
                     <Route path="/faq" component={Faq} />
                     <Route path="/archive" component={ArchiveList} />
                 <Footer />
@@ -66,7 +62,7 @@ if (root)
         </HashRouter>,
         root
     );
-
+//<Route exact path="/tickets/comments/:id" component={Comment} />
 
 
 
