@@ -53,15 +53,14 @@ export class FocusedTicket extends React.Component {
         if(this.state.tickets.length < 1){
                 return (
                     <div className="card-deck">
-                    <div className="col-lg-4">
-                    <Card className="m-4" style={{ width: '21rem' }}>
+                        <Card className="m-4 bg-dark text-white">
                         <Button variant="outline-dark" disabled={true}><br></br></Button>
                         <div className="card-header"><h5
-                            className="card-title text-center"><span className="text-primary">Focus</span> to place a ticket here</h5>
+                            className="card-title text-center"><span className="text-primary">Focus</span> to place tickets here</h5>
                         </div>
                         <div className="card-body">
                             <img className="card-img-top img-fluid" />
-                            <p className="card-subtitle m-2"><span className="text-primary">Focus</span> a ticket from the list below to move it here, and get access to additional support tools</p>
+                            <p className="card-subtitle m-2 text-center"><span className="text-primary">Focus</span> a ticket from the list below to move it here, and get access to additional support tools</p>
                             <br></br>
                             <br></br>
                         </div>
@@ -73,20 +72,20 @@ export class FocusedTicket extends React.Component {
                         </div>
                             <br></br>
                             <br></br>
-                    </Card>
+                            </Card>
                     </div>
-                    </div>
+
                 )
         };
         return (
-            <div className="container-fluid content-row">
-                    <div className="row row-sm-6 row-lg-6">
+                <div>
+                <Row>
                 {this.state.tickets.map(ticket =>(
-                    <div className={"h-100 w-25"}>
-                            <Card className="m-4 bg-dark text-white" >
+                    <div className={"col-lg-4"}>
+                            <Card className="m-4 bg-dark text-white border-primary">
                                 <Button variant="outline-primary" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
                                     <div className="card-header"><h5
-                                        className="card-title">{"Order number: " + ticket.headline}</h5>
+                                        className="card-title">{ticket.headline}</h5>
                                     </div>
                                 <div className="card-body">
                                     <img className="card-img-top img-fluid" alt={ticket.headline} src={ticket.picture}/>
@@ -97,20 +96,21 @@ export class FocusedTicket extends React.Component {
                                     <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
                                     <p className="card-subtitle mb-2"><Button variant="link">{}Contact</Button></p>
                                     <p className="card-text"><small className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
+
+
                                     <Comments id={ticket.ticket_id}/>
                                     <br></br>
                                     <CommentSubmit id={ticket.ticket_id}/>
+
+
+
                                 </div>
-                                <Button variant="danger mb-4 mt-2 mr-3 ml-3" onClick={() => this.archiveTicket(ticket)}>Mark as solved</Button>
+                                <Button variant="outline-danger" onClick={() => this.archiveTicket(ticket)}>Mark as solved</Button>
                             </Card>
-                    </div>
-
+                            </div>
                 ))}
+                </Row>
                     </div>
-
-                </div>
-
-
 
         )}
 
@@ -122,7 +122,7 @@ export class FocusedTicket extends React.Component {
             });
     }
 
-    sendEmail(ticket){
+    sendEmail(ticket : Object){
         let url = ticket.category;
         let win = window.open('mailto:'+url, '_blank');
     }
@@ -237,7 +237,6 @@ export class TicketList extends React.Component {
         var hour = restTime[0];
         var minute = restTime[1];
         return 'Ticket posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
-
     }
 }
 

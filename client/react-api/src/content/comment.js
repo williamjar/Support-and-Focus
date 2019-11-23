@@ -51,7 +51,6 @@ export class Comments extends React.Component<> {
     }
 }
 
-
 export class CommentSubmit extends React.Component{
     constructor(props) {
         super(props);
@@ -69,14 +68,18 @@ export class CommentSubmit extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className={"mb-4 ml-4"}>
             <Form onSubmit = {this.handleSubmit}>
+                <Row>
+
                 <Form.Group>
-                    <Form.Control type="text" maxLength="255" name="commentSubmit" placeholder="Write a comment" value={this.state.content} onChange={this.handleInputChange} />
+                    <Form.Control type="textarea" maxLength="60" name="commentSubmit" placeholder="Write a comment" value={this.state.content} onChange={this.handleInputChange} />
                 </Form.Group>
+
                 <Form.Group>
                     <Button variant="btn btn-primary bt-md" type="submit">  Submit </Button>
                 </Form.Group>
+                </Row>
 
             </Form>
             </div>
@@ -86,7 +89,6 @@ export class CommentSubmit extends React.Component{
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
 
         this.setState({content: value});
     }

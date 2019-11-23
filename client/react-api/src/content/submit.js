@@ -1,42 +1,45 @@
+// @flow
+
 import {Component} from "react";
 import {Form, Container, Button, Spinner, DropdownButton, Dropdown} from 'react-bootstrap'
 import {Ticket, ticketService} from "../network/services";
 
 import {Row, Column, Card} from "../widgets";
 import {Alert} from "../widgets";
-import React, {useDebugValue} from 'react';
+import React, {useDebugValue, useState, useEffect} from 'react';
 
 export class SubmitForm extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            headline : '',
-            content : null,
+            headline : null,
+            content : '',
             priority : 2,
-            picture : 'https://i.imgur.com/MLt67H9.jpg',
+            picture : '',
             post_date : '2019-03-15 01:01:22',
-            email: null,
+            email: '',
             group_id: 1,
-            author : null
+            author : '',
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+
+
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-        console.log(value);
+        console.log(name + " verdi: "+value);
 
         this.setState({[name]: value,});
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        if(this.submitTicket()) alert("Thank you for your submission!");
-        window.location.reload();
+        this.submitTicket();
     }
 
     render() {
@@ -45,8 +48,9 @@ export class SubmitForm extends React.Component {
                                 <div className="card-header"><h2 className="card-title">Submit a new ticket</h2></div>
                                 <div class="m-4">
                         <Form onSubmit = {this.handleSubmit}>
+
                             <Form.Group>
-                                <Form.Control name="headline" placeholder="Enter order number" value={this.state.headline} onChange={this.handleInputChange} />
+                                <Form.Control type="number" name="headline" placeholder="Enter order number" value={this.state.headline} onChange={this.handleInputChange} />
                                 <Form.Text> This field only accept numbers </Form.Text>
                             </Form.Group>
 
@@ -69,7 +73,7 @@ export class SubmitForm extends React.Component {
 
                             <div class="card-footer">
                             <Form.Group>
-                                <Button disabled={this.state.headline=null} variant="btn btn-primary btn-lg" type="submit"> Submit </Button>
+                                <Button variant="btn btn-primary btn-lg" type="submit"> Submit </Button>
                             </Form.Group>
                             </div>
 
@@ -80,8 +84,20 @@ export class SubmitForm extends React.Component {
     }
 
     submitTicket() {
-        alert(this.state.headline);
-        ticketService.createTicket(this.state);
-        }
+        let json: {} = {
+            "headline": this.state.headline,
+            "content": this.state.content,
+            "priority": this.state.priority,
+            "category": this.state.picture,
+            "picture": this.state.post_date,
+            "post_date": this.state.email,
+            "group_id": this.state.group_id,
+            "author": this.state.author
+        };
+
+
+        ticketService.createTicket(json).then(window.location.reload());
+
+    }
 
 }
