@@ -1,10 +1,10 @@
 let mysql = require("mysql");
 
-const ticketDao = require("./ticketdao.js");
+const TicketDao = require("./ticketdao.js");
 let pool = require("./connectionDB");
 const runsqlfile = require("./runsqlfile.js");
 
-let ticketDao = new ticketDao(pool);
+let ticketDao = new TicketDao(pool);
 
 afterAll(() => {
     pool.end();
