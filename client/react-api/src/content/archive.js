@@ -43,7 +43,7 @@ export class ArchiveList extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                {this.archive.map(ticket => (
+                {this.tickets.map(ticket => (
                         <tr>
                             <td>{ticket.ticket_id}</td>
                             <td>{ticket.author}</td>
@@ -69,8 +69,8 @@ export class ArchiveList extends Component {
     }
     mounted() {
         ticketService
-            .getArchive()
-            .then(archive => (this.archive = archive))
+            .getTickets(3)
+            .then(tickets => (this.tickets = tickets))
             .catch((error: Error) => Alert.danger(error.message));
     }
 

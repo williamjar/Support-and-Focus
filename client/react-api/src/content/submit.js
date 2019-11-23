@@ -12,11 +12,11 @@ export class SubmitForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            headline: null,
+            headline: '',
             content: '',
             priority: 2,
             picture: '',
-            post_date: '2019-03-15 01:01:22',
+            post_date: '2000-01-01 00:00:00',
             email: '',
             group_id: 1,
             author: '',
@@ -101,7 +101,11 @@ export class SubmitForm extends React.Component {
         };
 
 
-        ticketService.createTicket(json).then(window.location.reload());
+        ticketService.createTicket(json).then(res =>
+            alert("Thank you, you will hear from us shortly.")
+            );
+
+        window.location.reload();
 
     }
 

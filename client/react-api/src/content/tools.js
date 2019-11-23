@@ -38,7 +38,7 @@ export class LiveFeed extends React.Component{
     startUpdater() : void {
         setInterval(() => {
 
-            this.updateTickets()}, 5000
+            this.updateTickets()}, 500000
 
 
         );

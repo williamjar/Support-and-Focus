@@ -1,19 +1,14 @@
+// @flow
+let express = require("express");
 
-var express = require("express");
-var mysql = require("mysql");
-var bodyParser = require("body-parser");
-var app = express();
-let errorMessage = "An error has occurred with the database.";
-app.use(bodyParser.json());
+let bodyParser = require("body-parser");
+let app = express();
+app.use(bodyParser.json()); // for å tolke JSON
+let cors = require("cors");
+app.use(cors());
+let pool = require("./connectionDB");
 
-var pool = mysql.createPool({
-    connectionLimit: 2,
-    host: "mysql-ait.stud.idi.ntnu.no",
-    user: "williaj",
-    password: "7PeatTdJ",
-    database: "williaj",
-    debug: false
-});
+
 
 function getTime(){
     var today = new Date();
@@ -24,171 +19,67 @@ function getTime(){
     return dateTime;
 }
 
-// get all tickets
-app.get("/tickets/priority/:priority", (req, res) => {
-    console.log([req.params.priority]);
-    console.log("GET: retrieves tickets");
-    pool.getConnection((err, connection) => {
-      console.log("Connected to database");
-      if (err) {
-        console.log("Feil ved kobling til databasen");
-        res.json({
-          error: "Feil ved oppkobling"
-        });
-      } else {
-        connection.query(
-          "SELECT * FROM ticket WHERE priority=? ORDER BY post_date DESC",[req.params.priority],
-          (err, rows) => {
-            connection.release();
-            if (err) {
-              console.log(err);
-              res.json({
-                error: "error queying"
-              });
-            } else {
-              console.log(rows);
-              res.json(rows);
-            }
-          }
-        );
-      }
-    });
-  });
+const TicketDao = require('./dao/ticketdao.js');
+const CommentDao = require('./dao/commentdao.js');
+//const ArchiveDao = require('./dao/archivedao.js');
+//const GroupDao = require('./dao/groupdao.js');
+
+let ticketdao = new TicketDao(pool);
+let commentdao = new CommentDao(pool);
+//let archivedao = new ArchiveDao(pool);
+//let groupdao = new GroupDao(pool);
 
 app.get("/tickets", (req, res) => {
-    console.log("GET: retrieves tickets");
-    pool.getConnection((err, connection) => {
-        console.log("Connected to database");
-        if (err) {
-            console.log("Feil ved kobling til databasen");
-            res.json({
-                error: "Feil ved oppkobling"
-            });
-        } else {
-            connection.query(
-                "SELECT * FROM ticket ORDER BY post_date DESC LIMIT 5",
-                (err, rows) => {
-                    connection.release();
-                    if (err) {
-                        console.log(err);
-                        res.json({
-                            error: "error queying"
-                        });
-                    } else {
-                        console.log(rows);
-                        res.json(rows);
-                    }
-                }
-            );
-        }
+    console.log("Fikk request om alle artikler");
+    ticketdao.getAll((status, data) => {
+        res.status(status);
+        res.json(data);
     });
 });
+
+
+
+app.get("/tickets/priority/:priority", (req, res) => {
+    console.log("Fikk request om artikler basert på prioritet");
+    ticketdao.getByPriority((status, data) => {
+        res.status(status);
+        res.json(data);
+    }, req.params.priority);
+});
+
+
 
 app.get("/comments/ticket_id/:ticket_id", (req, res) => {
-
-    console.log("GET: retrieves comments with ticket_id: " + [req.params.ticket_id] );
-    pool.getConnection((err, connection) => {
-        console.log("Connected to database");
-        if (err) {
-            console.log("Feil ved kobling til databasen");
-            res.json({
-                error: "Feil ved oppkobling"
-            });
-        } else {
-            connection.query(
-                "SELECT * FROM comment WHERE ticket_id=? ORDER BY post_date",[req.params.ticket_id],
-                (err, rows) => {
-                    connection.release();
-                    if (err) {
-                        console.log(err);
-                        res.json({
-                            error: "error queying"
-                        });
-                    } else {
-                        console.log(rows);
-                        res.json(rows);
-                    }
-                }
-            );
-        }
-    });
+    console.log("Fikk request om kommentarer basert på en artikkel_id");
+    commentdao.getComments((status, data) =>{
+        res.status(status);
+        res.json(data);
+    }, req.params.id);
 });
+
 
 app.put("/tickets", (req, res) => {
-    console.log(req);
-    pool.getConnection((err, connection) => {
-        console.log("Connected to database");
-        if (err) {
-            console.log("Feil ved kobling til databasen");
-            res.json({
-                error: "Feil ved oppkobling"
-            });
-        } else {
-            var val = [
-                req.body.headline,
-                req.body.content,
-                req.body.priority,
-                req.body.picture,
-                req.body.email,
-                req.body.group_id,
-                req.body.author,
-                req.body.ticket_id
-            ];
-            connection.query(
-                "UPDATE ticket SET headline=?,content=?,priority=?,picture=?,email=?,group_id=?,author=? WHERE ticket_id =?",val,
-                (err, rows) => {
-                    connection.release();
-                    if (err) {
-                        console.log(err);
-                        res.json({
-                            error: "error queying"
-                        });
-                    } else {
-                        console.log(rows);
-                        res.json(rows);
-                    }
-                }
-            );
-        }
-    });
+    console.log("Fikk update request på en artikkel");
+    let val = [
+        req.body.headline,
+        req.body.content,
+        req.body.priority,
+        req.body.picture,
+        req.body.email,
+        req.body.group_id,
+        req.body.author,
+        req.body.ticket_id
+    ];
+    ticketdao.updateOne((status, data) => {
+        res.status(status);
+        res.json(data);
+    }, val);
 });
 
-app.get("/archive", (req, res) => {
-    console.log("GET: henter artikkelliste");
-    pool.getConnection((err, connection) => {
-        console.log("Connected to database");
-        if (err) {
-            console.log("Feil ved kobling til databasen");
-            res.json({
-                error: "Feil ved oppkobling"
-            });
-        } else {
-            connection.query(
-                "SELECT * FROM archive ORDER BY post_date DESC",
-                (err, rows) => {
-                    connection.release();
-                    if (err) {
-                        console.log("An error has occurred with the database.");
-                    } else {
-                        console.log(rows);
-                        res.json(rows);
-                    }
-                }
-            );
-        }
-    });
-});
 
-  // create ticket with post
 app.post("/create_ticket", (req, res) => {
-  console.log("Fikk POST-Request fra klienten");
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.log("Feil ved oppkobling");
-      res.json("Feil ved oppkobling");
-    } else {
-
-      var val = [
+    console.log("Fikk POST-Request fra klienten på artikkel");
+    let val = [
         req.body.headline,
         req.body.content,
         req.body.priority,
@@ -197,165 +88,30 @@ app.post("/create_ticket", (req, res) => {
         req.body.email,
         req.body.group_id,
         req.body.author
-      ];
-        console.log(val);
-        connection.query(
-        "INSERT INTO ticket(headline, content, priority, picture, post_date,email,group_id, author) VALUES (?,?,?,?,?,?,?,?)",
-        val,
-        err => {
-          connection.release();
-          if (err) {
-            console.log(err);
-            res.status(500);
-            res.json({
-              error: "Feil ved insert"
-            });
-          } else {
-            console.log("insert ok");
-            res.send("");
-          }
-        }
-      );
-    }
-  });
+    ];
+
+    ticketdao.createOne((status, data) => {
+        res.status(status);
+        res.json(data);
+    }, val);
+
 });
 
- // publish a comment
+
 app.post("/create_comment", (req, res) => {
-  console.log("Fikk POST-Request fra klienten");
-  pool.getConnection((err, connection) => {
-    if (err) {
-      console.log("Feil ved oppkobling");
-      res.json("Feil ved oppkobling");
-    } else {
-      console.log("Oppkoblet mot databasekontakt");
-      var val = [
+    console.log("Fikk post request fra klienten");
+    let val = [
         req.body.content,
         req.body.priority,
         getTime(),
         req.body.ticket_id
-      ];
-      connection.query(
-        "INSERT INTO comment(content,priority,post_date,ticket_id) VALUES (?,?,?,?)",
-        val,
-        err => {
-          connection.release();
-          if (err) {
-            console.log(errorMessage);
-            res.status(500);
-            res.json({
-              error: "Feil ved insert"
-            });
-          } else {
-            console.log("insert ok");
-            res.send("");
-          }
-        }
-      );
-    }
-  });
-});
-
-app.post("/archive_ticket", (req, res) => {
-    console.log("Arkiverer ticket" + req.body.ticket_id);
-    pool.getConnection((err, connection) => {
-        if (err) {
-            console.log("Feil ved oppkobling");
-            res.json("Feil ved oppkobling");
-        } else {
-            console.log("Oppkoblet mot databasekontakt");
-            var val = [
-                req.body.ticket_id,
-                req.body.headline,
-                req.body.content,
-                req.body.priority,
-                req.body.picture,
-                getTime(),
-                req.body.email,
-                req.body.group_id,
-                req.body.author,
-                req.body.ticket_id
-            ];
-            connection.query(
-                "INSERT INTO archive(ticket_id, headline, content, priority, picture, post_date,email,group_id, author) VALUES (?,?,?,?,?,?,?,?,?) ",
-                val,
-                err => {
-                    connection.release();
-                    if (err) {
-                        console.log(errorMessage);
-                        res.status(500);
-                        res.json({
-                            error: "Feil ved insert"
-                        });
-                    } else {
-                        console.log("Inserted into database.");
-                        res.send("");
-                    }
-                }
-            );
-        }
-    });
-});
-
-app.delete("/delete_ticket", (req, res) => {
-  console.log(req);
-  pool.getConnection((err, connection) => {
-    if(err) {
-      console.log("Feil ved oppkobling");
-      res.json("Feil ved oppkobling");
-    } else{
-      console.log("Oppkoblet mot databasekontakt" + req.body.ticket_id);
-        var val = [req.body.ticket_id];
-
-      connection.query(
-        "DELETE FROM ticket WHERE ticket_id = ?", val,
-        err => {
-          connection.release();
-          if(err) {
-            console.log(errorMessage);
-            res.status(500);
-            res.json({
-              error: "Feil ved sletting"
-            });
-          } else {
-            console.log("Sletting ok"+ req.body.ticket_id);
-            res.send(" ");
-          }
-        }
-      );
-    }
-  });
+    ];
+    commentdao.postComment((status, data) => {
+        res.status(status);
+        res.json(data);
+    }, val);
 });
 
 
-app.delete("/delete_archive", (req, res) => {
-    console.log("deleting arhived ticket");
-    pool.getConnection((err, connection) => {
-        if(err) {
-            console.log("Feil ved oppkobling");
-            res.json("Feil ved oppkobling");
-        } else{
-            console.log("Oppkoblet mot databasekontakt" + req.body.ticket_id);
-            var val = [req.body.ticket_id];
-
-            connection.query(
-                "DELETE FROM archive WHERE ticket_id = ?", val,
-                err => {
-                    connection.release();
-                    if(err) {
-                        console.log(errorMessage);
-                        res.status(500);
-                        res.json({
-                            error: "Feil ved sletting"
-                        });
-                    } else {
-                        console.log("Sletting ok"+ req.body.ticket_id);
-                        res.send(" ");
-                    }
-                }
-            );
-        }
-    });
-});
 
 let server = app.listen(4000);

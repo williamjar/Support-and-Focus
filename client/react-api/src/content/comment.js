@@ -1,6 +1,6 @@
 // @flow
 import {ticketService} from "../network/services";
-import {Modal,Button, Card, ListGroup, Container, Table, Row,Col, Form} from "react-bootstrap";
+import {Modal, Button, Card, ListGroup, Container, Table, Row, Col, Form} from "react-bootstrap";
 import React from 'react';
 
 export class Comments extends React.Component<> {
@@ -8,25 +8,27 @@ export class Comments extends React.Component<> {
     constructor(props) {
         super(props);
         this.state = {
-            comments : [],
+            comments: [],
         };
     }
 
     render() {
-        if (this.state.comments.length===0) return (<div></div>);
-        return(
+        if (this.state.comments.length === 0) return (<div></div>);
+        return (
             <div>
-                    {this.state.comments.map(comment =>(
-                        <p className={"card-text"}>
-                        <span className="card-text small text-muted">{this.convertDateTimeFromSQL(comment.post_date)}:  </span>
-                            {comment.content}
-                        </p>
-                    ))}
+                {this.state.comments.map(comment => (
+                    <p className={"card-text"}>
+                        <span
+                            className="card-text small text-muted">{this.convertDateTimeFromSQL(comment.post_date)}:  </span>
+                        {comment.content}
+                    </p>
+                ))}
             </div>
 
-        )}
+        )
+    }
 
-    componentDidMount(){
+    componentDidMount() {
         console.log("this is the ID in component mount " + this.props.id);
         ticketService
             .getComments(this.props.id)
@@ -50,14 +52,14 @@ export class Comments extends React.Component<> {
     }
 }
 
-export class CommentSubmit extends React.Component{
+export class CommentSubmit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            content : '',
-            priority : 1,
-            post_date :'2019-03-15 01:01:22',
-            ticket_id : this.props.id
+            content: '',
+            priority: 1,
+            post_date: '2019-03-15 01:01:22',
+            ticket_id: this.props.id
         };
 
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -65,22 +67,24 @@ export class CommentSubmit extends React.Component{
     }
 
 
-    render(){
-        return(
+    render() {
+        return (
             <div className={"mb-4 ml-4"}>
-            <Form onSubmit = {this.handleSubmit}>
-                <Row>
+                <Form onSubmit={this.handleSubmit}>
+                    <Row>
 
-                <Form.Group>
-                    <Form.Control type="textarea" maxLength="60" name="commentSubmit" placeholder="Write a comment" value={this.state.content} onChange={this.handleInputChange} />
-                </Form.Group>
+                        <Form.Group>
+                            <Form.Control type="textarea" maxLength="60" name="commentSubmit"
+                                          placeholder="Write a comment" value={this.state.content}
+                                          onChange={this.handleInputChange}/>
+                        </Form.Group>
 
-                <Form.Group>
-                    <Button variant="btn btn-primary bt-md" type="submit">  Submit </Button>
-                </Form.Group>
-                </Row>
+                        <Form.Group>
+                            <Button variant="btn btn-primary bt-md" type="submit"> Submit </Button>
+                        </Form.Group>
+                    </Row>
 
-            </Form>
+                </Form>
             </div>
         )
     }
@@ -102,13 +106,13 @@ export class CommentSubmit extends React.Component{
         let json = {
             "content": this.state.content,
             "priority": this.state.priority,
-            "post_date" : this.state.post_date,
-            "ticket_id":this.state.ticket_id
+            "post_date": this.state.post_date,
+            "ticket_id": this.state.ticket_id
         };
-        ticketService.createComment(json);
+        ticketService.createComment(json).then(res => console.log("comment created successfully"));
     }
 
-    componentDidMount(){
+    componentDidMount() {
         console.log("this is the submit form for comment id " + this.props.id);
 
     }
