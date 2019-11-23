@@ -94,9 +94,8 @@ export class SubmitForm extends React.Component {
             "headline": this.state.headline,
             "content": this.state.content,
             "priority": this.state.priority,
-            "category": this.state.picture,
-            "picture": this.state.post_date,
-            "post_date": this.state.email,
+            "picture": this.state.picture,
+            "post_date": this.state.post_date,
             "group_id": this.state.group_id,
             "author": this.state.author
         };

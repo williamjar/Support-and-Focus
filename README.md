@@ -1,9 +1,10 @@
-**Miniprosjekt**
+**Miniprosjekt:** *"Support with Tickets"*
+___
 
 Fagkode: TDAT2003
 
 Navn: William Jarbeaux
-
+___
 ![image showing the functions of the system](https://i.imgur.com/lXMLnjT.png)
 
 **Beskrivelse**
@@ -20,8 +21,16 @@ Det er også mulig å kommentere "tickets" og deretter legge dem tilbake i køen
 * Tester og CI med GitLab
 * Enkel LiveFeed som henter de 5 siste artiklene uavhengig av prioritet ut av databasen hvert 5 sekund
 * Tester på server og på klient der det lar seg gjøre
+___
 
+![showing single ticket](https://i.imgur.com/JDksOzV.png) 
 
+*Picture: showing single focused (expanded) ticket.*
+
+![ticket showing comments](https://i.imgur.com/qnDrQBa.png)
+
+*Picture showing comments on a focused (expanded) ticket*
+___
 **Kravliste**
 
 *Da jeg har valgt en litt annen vri på oppgaven, bekrefter jeg at jeg har med kravene som skal til.*
