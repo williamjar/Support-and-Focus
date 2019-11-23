@@ -1,7 +1,4 @@
 import {Component} from "react-simplified";
-import {Ticket, ticketService} from "../network/services";
-import {Button} from "react-bootstrap";
-import {Alert} from "../widgets";
 import React from 'react';
 
 export class Faq extends Component {
@@ -14,8 +11,8 @@ export class Faq extends Component {
                     <h5>When will I get my order?</h5>
                     <p>The pre order status can be found on the product page</p>
 
-                    <h5>When will I get my order?</h5>
-                    <p>The pre order status can be found on the product page</p>
+                    <h5>Where can i find the product page?</h5>
+                    <p>You can find the product page on the product page. </p>
 
                     <h5>When will I get my order?</h5>
                     <p>The pre order status can be found on the product page</p>
@@ -36,5 +33,4 @@ export class Faq extends Component {
             </div>
         )
     }
-
 }

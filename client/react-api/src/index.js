@@ -5,7 +5,7 @@ import React from 'react'
 import { Component } from 'react-simplified';
 import { Alert, NavBar} from './widgets';
 import {TicketList, FocusedTicket} from './content/tickets';
-import {LiveFeed} from "./content/livefeed";
+import {LiveFeed, ToolBar} from "./content/tools";
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
@@ -53,6 +53,7 @@ if (root)
                 <Menu />
                     <Route exact path="/" component={Faq} />
                     <Route exact path="/" component={SubmitForm} />
+                    <Route path="/tickets" component={ToolBar} />
                     <Route path="/tickets" component={FocusedTicket} />
                     <Route path="/tickets" component={TicketList} />
                     <Route path="/faq" component={Faq} />

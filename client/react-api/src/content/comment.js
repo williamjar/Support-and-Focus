@@ -10,9 +10,8 @@ export class Comments extends React.Component<> {
         this.state = {
             comments : [],
         };
-
-
     }
+
     render() {
         if (this.state.comments.length===0) return (<div></div>);
         return(

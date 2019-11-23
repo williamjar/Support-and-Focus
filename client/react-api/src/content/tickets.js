@@ -52,21 +52,16 @@ export class FocusedTicket extends React.Component {
     render() {
         if(this.state.tickets.length < 1){
                 return (
-                    <div className="card-deck">
+                    <Row>
+                    <div className="col-lg-4">
                         <Card className="m-4 bg-dark text-white">
-                        <Button variant="outline-dark" disabled={true}><br></br></Button>
+                            <Button variant="outline-info" disabled>Placeholder ticket</Button>
                         <div className="card-header"><h5
-                            className="card-title text-center"><span className="text-primary">Focus</span> to place tickets here</h5>
+                            className="card-title text-center"><span className="text-info">Focus</span> to place tickets here</h5>
                         </div>
                         <div className="card-body">
                             <img className="card-img-top img-fluid" />
-                            <p className="card-subtitle m-2 text-center"><span className="text-primary">Focus</span> a ticket from the list below to move it here, and get access to additional support tools</p>
-                            <br></br>
-                            <br></br>
-                        </div>
-                        <div className="card-footer">
-                            <br></br>
-                            <br></br>
+                            <p className="card-subtitle m-2 text-center"><span className="text-info">Focus</span> a ticket from the list below to move it here, and get access to additional support tools</p>
                             <br></br>
                             <br></br>
                         </div>
@@ -74,7 +69,7 @@ export class FocusedTicket extends React.Component {
                             <br></br>
                             </Card>
                     </div>
-
+                    </Row>
                 )
         };
         return (
@@ -82,8 +77,8 @@ export class FocusedTicket extends React.Component {
                 <Row>
                 {this.state.tickets.map(ticket =>(
                     <div className={"col-lg-4"}>
-                            <Card className="m-4 bg-dark text-white border-primary">
-                                <Button variant="outline-primary" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
+                            <Card className="m-4 bg-dark text-white">
+                                <Button variant="outline-info" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
                                     <div className="card-header"><h5
                                         className="card-title">{ticket.headline}</h5>
                                     </div>
@@ -96,7 +91,6 @@ export class FocusedTicket extends React.Component {
                                     <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
                                     <p className="card-subtitle mb-2"><Button variant="link">{}Contact</Button></p>
                                     <p className="card-text"><small className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
-
 
                                     <Comments id={ticket.ticket_id}/>
                                     <br></br>
@@ -124,7 +118,7 @@ export class FocusedTicket extends React.Component {
 
     sendEmail(ticket : Object){
         let url = ticket.category;
-        let win = window.open('mailto:'+url, '_blank');
+        window.open('mailto:'+url, '_blank');
     }
 
     archiveTicket(ticket) {
@@ -170,7 +164,7 @@ export class TicketList extends React.Component {
                     {this.state.tickets.map(ticket => (
                         <tr>
                             <td>
-                                <Button variant="primary" onClick={() => this.focusTicket(ticket)}>Focus</Button>
+                                <Button variant="info" onClick={() => this.focusTicket(ticket)}>Focus</Button>
                             </td>
                             <td>{ticket.ticket_id}</td>
                             <td>{ticket.author}</td>

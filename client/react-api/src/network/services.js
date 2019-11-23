@@ -40,8 +40,8 @@ class TicketService {
         return axios.get<Comments[]>('/comments/ticket_id/' + ticket_id);
     }
 
-    getLatestTickets() : Promise<any> {
-
+    getAllTickets() : Promise<any> {
+        return axios.get<Ticket[]>('/tickets');
     }
 
     updateTicketPriority(json : Object) : Promise<any>{

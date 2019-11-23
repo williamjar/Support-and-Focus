@@ -55,6 +55,35 @@ app.get("/tickets/priority/:priority", (req, res) => {
     });
   });
 
+app.get("/tickets", (req, res) => {
+    console.log("GET: retrieves tickets");
+    pool.getConnection((err, connection) => {
+        console.log("Connected to database");
+        if (err) {
+            console.log("Feil ved kobling til databasen");
+            res.json({
+                error: "Feil ved oppkobling"
+            });
+        } else {
+            connection.query(
+                "SELECT * FROM ticket ORDER BY post_date DESC LIMIT 5",
+                (err, rows) => {
+                    connection.release();
+                    if (err) {
+                        console.log(err);
+                        res.json({
+                            error: "error queying"
+                        });
+                    } else {
+                        console.log(rows);
+                        res.json(rows);
+                    }
+                }
+            );
+        }
+    });
+});
+
 app.get("/comments/ticket_id/:ticket_id", (req, res) => {
 
     console.log("GET: retrieves comments with ticket_id: " + [req.params.ticket_id] );

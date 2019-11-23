@@ -4,6 +4,7 @@ Fagkode: TDAT2003
 
 Navn: William Jarbeaux
 
+![image showing the functions of the system](https://i.imgur.com/lXMLnjT.png)
 
 **Beskrivelse**
 
