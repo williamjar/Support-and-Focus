@@ -6,74 +6,89 @@ import {Alert} from "../widgets";
 import React from 'react';
 
 export class ArchiveList extends Component {
-    showConfirmationDialog = false;
-    archive: Archive[] = [];
 
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            tickets : [],
+        };
+    }
 
     render() {
-        if(this.showConfirmationDialog){
-            return(
-                <Modal.Dialog>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Modal title</Modal.Title>
-                    </Modal.Header>
-
-                    <Modal.Body>
-                        <p>Are you sure you want to delete this archived ticket forever</p>
-                    </Modal.Body>
-
-                    <Modal.Footer>
-                        <Button variant="secondary">Close</Button>
-                        <Button variant="danger" onClick={() => this.deleteArchivedTicket()}>Delete</Button>
-                    </Modal.Footer>
-                </Modal.Dialog>
-            )
-        }
         return (
             <div className="card m-4 bg-dark text-white">
                 <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>
                     <thead>
                     <tr>
+                        <th>Recover</th>
                         <th>Ticket ID</th>
                         <th>Customer</th>
                         <th>Order Number</th>
                         <th>Content</th>
-                        <th>Archived date</th>
-                        <th>Delete (GDPR)</th>
+                        <th>Submitted</th>
+                        <th>Archive</th>
                     </tr>
                     </thead>
                     <tbody>
-                {this.tickets.map(ticket => (
+                    {this.state.tickets.map(ticket => (
                         <tr>
+                            <td>
+                                <Button variant="warning" onClick={() => this.recoverTicket(ticket)}>Recover ticket</Button>
+                            </td>
                             <td>{ticket.ticket_id}</td>
                             <td>{ticket.author}</td>
                             <td>{ticket.headline}</td>
-                            <td>{this.shortenString(ticket.content, 20)}</td>
+                            <td>{ticket.content}</td>
                             <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
                             <td>
-                                <Button variant="danger" >Delete forever</Button>
+                                <Button variant="danger" onClick={() =>this.archiveTicket(ticket)}>Delete forever</Button>
                             </td>
                         </tr>
-                ))}
+                    ))}
                     </tbody>
                 </Table>
             </div>
         )
     }
 
-
-    shortenString(text, chars){
-        if(text == null || text == " ") return "no content";
-        var str = text.slice(0, chars);
-        return str+"...";
+    recoverTicket(ticket){
+        window.location.reload();
+        let json: {} = {
+            "ticket_id": ticket.ticket_id,
+            "headline": ticket.headline,
+            "content": ticket.content,
+            "priority": 2,
+            "picture": ticket.picture,
+            "post_date": ticket.post_date,
+            "email":ticket.email,
+            "group_id":ticket.group_id,
+            "author": ticket.author
+        };
+        ticketService.updateTicketPriority(json);
     }
-    mounted() {
-        ticketService
-            .getTickets(3)
-            .then(tickets => (this.tickets = tickets))
-            .catch((error: Error) => Alert.danger(error.message));
+
+    componentDidMount() {
+        ticketService.getTickets(3).then(res => {
+            const tickets = res.data;
+            this.setState({tickets})
+        });
     }
 
+    archiveTicket(ticket) {
+        window.location.reload();
+        let json: {} = {
+            "ticket_id": ticket.ticket_id,
+            "headline": ticket.headline,
+            "content": ticket.content,
+            "priority": 3,
+            "category": ticket.category,
+            "picture": ticket.picture,
+            "post_date": ticket.post_date,
+            "author": ticket.author
+        };
+        ticketService.solveTicket(json);
+    }
 
     convertDateTimeFromSQL(date) {
         var str = date.split('-');
@@ -85,10 +100,8 @@ export class ArchiveList extends Component {
         var restTime = time[1].split(':');
         var hour = restTime[0];
         var minute = restTime[1];
-
-
-        return 'Time archived: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
-
+        return 'Ticket posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
     }
+
 }
 

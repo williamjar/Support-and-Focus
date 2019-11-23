@@ -29,15 +29,13 @@ let commentdao = new CommentDao(pool);
 //let archivedao = new ArchiveDao(pool);
 //let groupdao = new GroupDao(pool);
 
-app.get("/tickets", (req, res) => {
+app.get("/tickets/", (req, res) => {
     console.log("Fikk request om alle artikler");
     ticketdao.getAll((status, data) => {
         res.status(status);
         res.json(data);
     });
 });
-
-
 
 app.get("/tickets/priority/:priority", (req, res) => {
     console.log("Fikk request om artikler basert på prioritet");
@@ -47,16 +45,13 @@ app.get("/tickets/priority/:priority", (req, res) => {
     }, req.params.priority);
 });
 
-
-
 app.get("/comments/ticket_id/:ticket_id", (req, res) => {
-    console.log("Fikk request om kommentarer basert på en artikkel_id");
+    console.log("Henter kommentarer til");
     commentdao.getComments((status, data) =>{
         res.status(status);
         res.json(data);
-    }, req.params.id);
+    }, req.params.ticket_id);
 });
-
 
 app.put("/tickets", (req, res) => {
     console.log("Fikk update request på en artikkel");

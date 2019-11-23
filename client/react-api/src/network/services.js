@@ -36,12 +36,12 @@ class TicketService {
     }
 
     getComments(ticket_id: number): Promise<any> {
-        console.log("getcomment with ticket id" + ticket_id);
+        console.log("Henter kommentarer til " + ticket_id)
         return axios.get<Comments[]>('/comments/ticket_id/' + ticket_id);
     }
 
     getAllTickets(): Promise<any> {
-        return axios.get<Ticket[]>('/tickets');
+        return axios.get<Ticket[]>('/tickets/');
     }
 
     updateTicketPriority(json: Object): Promise<any> {

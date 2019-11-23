@@ -4,7 +4,7 @@ module.exports = class TicketDao extends Dao {
 
 
     getAll(callback) {
-        super.query("SELECT * FROM ticket LIMIT 20", [], callback);
+        super.query("SELECT * FROM ticket WHERE NOT priority = 3 ORDER BY post_date DESC LIMIT 10", [], callback);
     }
 
     getLatest(callback) {

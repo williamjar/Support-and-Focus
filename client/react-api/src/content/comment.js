@@ -13,7 +13,7 @@ export class Comments extends React.Component<> {
     }
 
     render() {
-        if (this.state.comments.length === 0) return (<div></div>);
+        if (this.state.comments.length === 0) return (<div>No comments yet</div>);
         return (
             <div>
                 {this.state.comments.map(comment => (
