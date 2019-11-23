@@ -5,6 +5,7 @@ import React from 'react'
 import {Comments, CommentSubmit} from "./comment";
 
 export class LiveFeed extends React.Component{
+    intervalID = 0;
     constructor(props) {
         super(props);
         this.state = {
@@ -35,14 +36,17 @@ export class LiveFeed extends React.Component{
         this.startUpdater();
     }
 
+    componentWillUnmount() {
+        clearInterval(this.intervalID);
+    }
+
     startUpdater() : void {
-        setInterval(() => {
-
-            this.updateTickets()}, 5000
-
-
+        this.intervalID = setInterval(() => {
+            this.updateTickets()}, 50000
         );
     }
+
+
 
     updateTickets() : void {
         ticketService
