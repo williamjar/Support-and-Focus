@@ -9,10 +9,35 @@ Navn: William Jarbeaux
 **Beskrivelse**
 
 React.js og Node.js-basert "Ticket"-system til å organisere kundebehandling for bedrifter. Hver sak registreres som en "ticket" som kan løses av kundebehandleren. Kundebehandleren kan fokusere ulike "tickets", disse vil da bli lagret i denne posisjonen. 
+Ved at "tickets" endrer prioritet, vil man alltid kunne se hvilken kundebehandler som harplukket hvilken sak ut av køen nederst på siden. 
+Det er også mulig å kommentere "tickets" og deretter legge dem tilbake i køen. Da kan en annen kundebehandler ta tak i saken og fortsette. 
 
-**Teknologier brukt i dette prosjektet**
+**Hva er med i dette prosjektet**
 * Statisk typesjekking med Flow
-* React med service-klasse(store-klasse er implementert via service-klassen)
+* React med service-klasser
 * Node.js og REST-backend
-* Funskjonelle algoritmer i Javascript(feks. .map for å kjøre render på fler objekter)
+* Funskjonelle algoritmer i Javascript(feks. .map for at det skal være mulig å lage nok div-objekter til å vise det vi vil fra databasen)
 * Tester og CI med GitLab
+* Enkel LiveFeed som henter de 5 siste artiklene uavhengig av prioritet ut av databasen hvert 5 sekund
+* Tester på server og på klient der det lar seg gjøre
+
+
+**Kravliste**
+
+*Da jeg har valgt en litt annen vri på oppgaven, bekrefter jeg at jeg har med kravene som skal til.*
+
+**Ticket** sine attributter:
+* Overskrift (headline/ordrenummer)
+* Innhold (content)
+* Tidspunkt (post_date, lagres i databasen med nøyaktighet, men vises kun med minutt på nettsiden)
+* Bilde (picture)
+* Kategori (group, brukes til å gruppere tickets)
+* Viktighet (priority, brukes til å trekke "tickets" ut av jobbkøen)
+
+Annet:
+Kategorier(groups) lagres i databasen.
+LiveFeed er med.
+Kommentarer for "tickets" er med
+Har med andre funksjoner som et "ticket"-system krever å ha med.
+
+
