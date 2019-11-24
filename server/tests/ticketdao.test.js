@@ -45,7 +45,7 @@ test("post ticket to db", done => {
 test("update ticket db", done => {
     function callback(status, data) {
         console.log("Test callback: status=" + status + ", data.length=" + data.length);
-        expect(status).toBe(500);
+        expect(status).toBe(200);
         done()
     }
 
