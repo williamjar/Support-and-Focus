@@ -30,6 +30,7 @@ export class FocusedTicket extends React.Component {
         ticketService.updateTicketPriority(json);
     }
 
+
     convertDateTimeFromSQL(date) {
         var str = date.split('-');
         var year = str[0];
