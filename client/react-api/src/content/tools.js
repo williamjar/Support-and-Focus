@@ -19,7 +19,7 @@ export class LiveFeed extends React.Component {
         };
     }
 
-    render(): html {
+    render(): React.Node  {
 
         if (this.state.tickets.length === 0) return (
             <div><Row> <ListGroup.Item className={"m-2"} variant={"primary"}>No new tickets</ListGroup.Item> </Row>
@@ -51,7 +51,7 @@ export class LiveFeed extends React.Component {
         this.startUpdater();
     }
 
-    componentWillUnmount() {
+    componentWillUnmount(): void {
         clearInterval(this.intervalID);
     }
 
@@ -87,7 +87,7 @@ export class LiveFeed extends React.Component {
         });
     }
 
-    convertDateTimeFromSQL(date) {
+    convertDateTimeFromSQL(date: string) {
         var str = date.split('-');
         var rest = str[2];
         var time = rest.split('T');
@@ -107,7 +107,7 @@ export class Grouper extends React.Component {
         };
     }
 
-    render() {
+    render(): React.Node  {
 
         return (
             <div>
@@ -139,7 +139,7 @@ export class Grouper extends React.Component {
 
 export class ToolBar extends React.Component {
 
-    render() {
+    render(): React.Node {
 
         return (
             <div>

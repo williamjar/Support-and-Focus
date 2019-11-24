@@ -2,7 +2,7 @@
 
 /*
     Denne filen har både fokuserte "tickets" og listen med resterende "tickets".
- */
+*/
 
 import {ticketService} from "../network/services";
 import {Button, Card, Table, Row, Col} from "react-bootstrap";
@@ -39,7 +39,7 @@ export class FocusedTicket extends React.Component<{}> {
         ticketService.updateTicketPriority(json);
     }
 
-    render(): void {
+    render(): React.Node {
 
         if (this.state.tickets.length < 1) return (<PlaceholderTicket/>);
 

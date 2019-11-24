@@ -8,7 +8,7 @@ Generell info-side. Skal kunne endres via admin-panel(ikke laget enda).
  */
 
 export class Faq extends Component {
-    render() : void{
+    render(): React.Node{
         return(
             <Col sm={8}>
             <div className="card col-lg4 m-4 bg-dark text-white">

@@ -18,7 +18,7 @@ import Row from "react-bootstrap/Row";
 
 //menu for navigation
 class Menu extends Component {
-    render() {
+    render(): React.Node {
         return (
             <div>
                 <img src="/smallogo.png" alt="Tickets Focus logo" />
@@ -34,7 +34,7 @@ class Menu extends Component {
 
 // footer
 class Footer extends Component {
-    render() {
+    render(): React.Node {
         return (
             <div class="card">
                 <p class="text-muted">

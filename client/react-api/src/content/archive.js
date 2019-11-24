@@ -11,7 +11,6 @@ import React from 'react';
 
 export class ArchiveList extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -19,7 +18,7 @@ export class ArchiveList extends Component {
         };
     }
 
-    render() {
+    render(): React.Node {
         return (
             <div className="card m-4 bg-dark text-white">
                 <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>

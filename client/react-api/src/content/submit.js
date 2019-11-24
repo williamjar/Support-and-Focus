@@ -39,7 +39,7 @@ export class SubmitForm extends React.Component {
     }
 
 
-    handleInputChange(event) {
+    handleInputChange(event) : void {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
@@ -53,7 +53,7 @@ export class SubmitForm extends React.Component {
         this.submitTicket();
     }
 
-    render() {
+    render(): React.Node {
         return (
             <Col sm={4}>
             <div className="card col-lg4 m-4 bg-dark text-white">

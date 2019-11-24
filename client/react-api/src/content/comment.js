@@ -21,7 +21,7 @@ export class Comments extends React.Component {
         };
     }
 
-    render(): void {
+    render(): React.Node {
         if (this.state.comments.length === 0) return (<h5>No comments yet</h5>);
         return (
             <div>
@@ -86,7 +86,7 @@ export class CommentSubmit extends React.Component {
     }
 
 
-    render() {
+    render(): React.Node {
         return (
             <div className={"ml-3"}>
                 <Form onSubmit={this.handleSubmit}>
