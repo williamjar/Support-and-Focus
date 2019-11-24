@@ -23,6 +23,7 @@ class Menu extends Component {
             <div>
                 <img src="/smallogo.png" alt="Tickets Focus logo" />
             <NavBar>
+                <NavBar.Link to="/">Customer page</NavBar.Link>
                 <NavBar.Link to="/tickets">Tickets</NavBar.Link>
                 <NavBar.Link to="/archive">Archive</NavBar.Link>
             </NavBar>

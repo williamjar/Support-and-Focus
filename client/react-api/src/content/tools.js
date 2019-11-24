@@ -33,7 +33,6 @@ export class LiveFeed extends React.Component {
                             <div>
                                 <ListGroup.Item onClick={() => this.focusTicket(ticket)} className={"m-2"}
                                                 variant={"dark"}>
-
                                     {this.convertDateTimeFromSQL(ticket.post_date)}"{ticket.content.substring(0, 15)}..."
                                     by {ticket.author.substring(0,7)}
 
