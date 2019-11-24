@@ -7,9 +7,6 @@ import {Button, Card, Row} from "react-bootstrap";
 
 
 export class FromDatetime extends React.Component<{post_date : String}> {
-    constructor(props : Object){
-        super(props);
-    }
 
     render(){
         return(
