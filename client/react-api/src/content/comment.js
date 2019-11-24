@@ -16,11 +16,12 @@ export class Comments extends React.Component<> {
         if (this.state.comments.length === 0) return (<div>No comments yet</div>);
         return (
             <div>
+                <h5>Comments:</h5>
                 {this.state.comments.map(comment => (
                     <p className={"card-text"}>
                         <span
-                            className="card-text small text-muted">{this.convertDateTimeFromSQL(comment.post_date)}:  </span>
-                        {comment.content}
+                            className="card-text small text-muted">{this.convertDateTimeFromSQL(comment.post_date)} </span>
+                                {comment.content}
                     </p>
                 ))}
             </div>
@@ -69,18 +70,18 @@ export class CommentSubmit extends React.Component {
 
     render() {
         return (
-            <div className={"mb-4 ml-4"}>
+            <div className={"ml-3"}>
                 <Form onSubmit={this.handleSubmit}>
                     <Row>
 
                         <Form.Group>
-                            <Form.Control type="textarea" maxLength="60" name="commentSubmit"
+                            <Form.Control type="textarea" maxLength="75" name="commentSubmit"
                                           placeholder="Write a comment" value={this.state.content}
                                           onChange={this.handleInputChange}/>
                         </Form.Group>
 
                         <Form.Group>
-                            <Button variant="btn btn-primary bt-md" type="submit"> Submit </Button>
+                            <Button className="ml-2" variant="btn btn-primary bt-md" type="submit"> Submit </Button>
                         </Form.Group>
                     </Row>
 
