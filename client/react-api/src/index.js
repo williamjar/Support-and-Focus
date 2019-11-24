@@ -10,7 +10,6 @@ import {ToolBar} from "./content/tools";
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
-import Col from "react-bootstrap/Col";
 
 //menu for navigation
 class Menu extends Component {
