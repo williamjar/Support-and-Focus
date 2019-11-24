@@ -19,7 +19,8 @@ import {SubmitForm} from './content/submit';
 class Menu extends Component {
     render() {
         return (
-            <NavBar variant="dark" brand="Mekanisk Support Dashboard">
+            <NavBar>
+                <NavBar.Link to="/"><img src="/smallogo.png" alt="Tickets Focus logo" /></NavBar.Link>
                 <NavBar.Link to="/tickets">Tickets</NavBar.Link>
                 <NavBar.Link to="/archive">Archive</NavBar.Link>
             </NavBar>

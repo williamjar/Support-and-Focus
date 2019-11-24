@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Component } from 'react-simplified';
 import {shallow} from "enzyme";
 import {Comments} from "../content/comment";
 import {ticketService} from "../network/services";

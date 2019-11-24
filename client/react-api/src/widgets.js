@@ -133,7 +133,7 @@ export class Alert extends Component {
 class NavBarLink extends Component<{ exact?: boolean, to: string, children?: React.Node }> {
     render() {
         return (
-            <NavLink className="nav-link" activeClassName="active" exact={this.props.exact} to={this.props.to}>
+            <NavLink className="nav-link text-white" activeClassName="active" exact={this.props.exact} to={this.props.to}>
                 {this.props.children}
             </NavLink>
         );
@@ -148,9 +148,9 @@ export class NavBar extends Component<{ brand?: React.Node, children?: React.Nod
 
     render() {
         return (
-            <nav className="navbar navbar-expand-sm bg-light navbar-light">
+            <nav className="navbar navbar-expand-sm bg-dark navbar-light">
                 {
-                    <NavLink className="navbar-brand" activeClassName="active" exact to="/">
+                    <NavLink className="navbar-brand text-white" activeClassName="active" exact to="/">
                         {this.props.brand}
                     </NavLink>
                 }

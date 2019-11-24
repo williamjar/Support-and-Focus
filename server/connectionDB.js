@@ -1,3 +1,5 @@
+// Jeg er klar over at det ikke er sikkert å lagre database-login slik.
+
 let mysql = require("mysql");
 
 let pool = mysql.createPool({
