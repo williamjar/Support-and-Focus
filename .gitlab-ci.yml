@@ -18,8 +18,9 @@ run_tests:
   stage: test
   script:
     - cd server && npm install && npm test
-    - cd ../client/react-api/src && npm install && npm test
+    - cd ../client/react-api && npm install && npm test
 
   artifacts:
     paths:
-      - coverage/
+      - client/coverage
+      - server/coverage
