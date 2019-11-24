@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import {Form, Button} from 'react-bootstrap'
+import {Form, Button, Col} from 'react-bootstrap'
 import {ticketService} from "../network/services";
 
 /*
@@ -55,6 +55,7 @@ export class SubmitForm extends React.Component {
 
     render() {
         return (
+            <Col sm={4}>
             <div className="card col-lg4 m-4 bg-dark text-white">
                 <div className="card-header"><h2 className="card-title">Submit a new ticket</h2></div>
                 <div class="m-4">
@@ -98,6 +99,7 @@ export class SubmitForm extends React.Component {
                     </Form>
                 </div>
             </div>
+            </Col>
         )
     }
 

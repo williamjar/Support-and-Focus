@@ -12,7 +12,6 @@ afterAll(() => {
 
 test("get all tickets from db", done => {
     function callback(status, data) {
-        console.log("Test callback: status=" + status + ", data.length=" + data.length);
         expect(data.length).toBeGreaterThan(0);
         done();
     }
@@ -22,7 +21,6 @@ test("get all tickets from db", done => {
 
 test("get single latest ticket from db", done => {
     function callback(status, data) {
-        console.log("Test callback: status=" + status + ", data.length=" + data.length);
         expect(data.length).toBe(1);
         done();
     }
@@ -32,7 +30,6 @@ test("get single latest ticket from db", done => {
 
 test("post ticket to db", done => {
     function callback(status, data) {
-        console.log("Test callback: status=" + status + ", data.length=" + data.length);
         expect(status).toBe(200);
         done()
     }
@@ -44,7 +41,6 @@ test("post ticket to db", done => {
 
 test("update ticket db", done => {
     function callback(status, data) {
-        console.log("Test callback: status=" + status + ", data.length=" + data.length);
         expect(status).toBe(200);
         done()
     }
@@ -55,7 +51,6 @@ test("update ticket db", done => {
 
 test("solve a ticket", done => {
     function callback(status, data) {
-        console.log("Test callback: status=" + status + ", data.length=" + data.length);
         expect(status).toBe(200);
         done()
     }
@@ -65,7 +60,6 @@ test("solve a ticket", done => {
 
 test("get tickets by priority from db", done => {
     function callback(status, data) {
-        console.log("Test callback: status=" + status + ", data.length=" + data.length);
         expect(data.length).toBeGreaterThan(0);
         done()
     }
@@ -75,7 +69,6 @@ test("get tickets by priority from db", done => {
 
 test("get tickets by group from db", done => {
     function callback(status, data) {
-        console.log("Test callback: status=" + status + ", data.length=" + data.length);
         expect(data.length).toBeGreaterThanOrEqual(0);
         done()
     }

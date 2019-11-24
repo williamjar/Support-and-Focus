@@ -10,6 +10,7 @@ import {ToolBar} from "./content/tools";
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
+import Row from "react-bootstrap/Row";
 
 /*
     Denne filen har skallet rundt alle de andre komponentene. Denne filen bruker react-simplified.( Takk Eidheim ! ).
@@ -50,8 +51,10 @@ if (root)
             <div className="bg-light">
                 <Alert/>
                 <Menu/>
-                <Route exact path="/" component={Faq}/>
+                <Row>
                 <Route exact path="/" component={SubmitForm}/>
+                <Route exact path="/" component={Faq}/>
+                </Row>
                 <Route path="/tickets" component={ToolBar}/>
                 <Route path="/tickets" component={FocusedTicket}/>
                 <Route path="/tickets" component={TicketList}/>
