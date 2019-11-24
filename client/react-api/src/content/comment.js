@@ -1,35 +1,43 @@
 // @flow
 
 import {ticketService} from "../network/services";
-import {Button,Row, Form} from "react-bootstrap";
+import {Button, Row, Form, Col} from "react-bootstrap";
 import React from 'react';
+import {FromDatetime} from "../widgets";
 
 export class Comments extends React.Component {
+    state: {
+        comments: ?[],
+    };
 
-    constructor(props) {
+    constructor(props: Object) {
         super(props);
         this.state = {
             comments: [],
         };
     }
 
-    render() {
-        if (this.state.comments.length === 0) return (<div>No comments yet</div>);
+    render(): void {
+        if (this.state.comments.length === 0) return (<h5>No comments yet</h5>);
         return (
             <div>
                 <h5>Comments:</h5>
                 {this.state.comments.map(comment => (
-                    <p className={"card-text"}>
-                        <span
-                            className="card-text small text-muted">{this.convertDateTimeFromSQL(comment.post_date)} </span>
-                        {comment.content}
-                    </p>
+                    <Row>
+                        <Col sm={3}>
+                                <div className={"text-muted"}> {<FromDatetime post_date={comment.post_date}></FromDatetime>} </div>
+                        </Col>
+
+                        <Col sm={9}>
+                                <div className={"card-text"}>{comment.content}</div>
+                        </Col>
+                    </Row>
                 ))}
             </div>
         )
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         ticketService
             .getComments(this.props.id)
             .then(res => {
@@ -38,7 +46,7 @@ export class Comments extends React.Component {
             });
     }
 
-    convertDateTimeFromSQL(date) {
+    convertDateTimeFromSQL(date: string) {
         var str = date.split('-');
         var year = str[0];
         var month = str[1];
@@ -53,7 +61,14 @@ export class Comments extends React.Component {
 }
 
 export class CommentSubmit extends React.Component {
-    constructor(props) {
+    state: {
+        content: string,
+        priority: number,
+        post_date: string,
+        ticket_id: number
+    };
+
+    constructor(props: Object) {
         super(props);
         this.state = {
             content: '',

@@ -9,12 +9,11 @@ app.use(cors());
 let pool = require("./connectionDB");
 
 
-
-function getTime(){
+function getTime() {
     var today = new Date();
-    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
     var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    var dateTime = date+' '+time;
+    var dateTime = date + ' ' + time;
 
     return dateTime;
 }
@@ -46,15 +45,13 @@ app.get("/tickets/priority/:priority", (req, res) => {
 });
 
 app.get("/comments/ticket_id/:ticket_id", (req, res) => {
-    console.log("Henter kommentarer til");
-    commentdao.getComments((status, data) =>{
+    commentdao.getComments((status, data) => {
         res.status(status);
         res.json(data);
     }, req.params.ticket_id);
 });
 
 app.put("/tickets", (req, res) => {
-    console.log("Fikk update request på en artikkel");
     let val = [
         req.body.headline,
         req.body.content,
@@ -73,7 +70,6 @@ app.put("/tickets", (req, res) => {
 
 
 app.post("/create_ticket", (req, res) => {
-    console.log("Fikk POST-Request fra klienten på artikkel");
     let val = [
         req.body.headline,
         req.body.content,
@@ -94,7 +90,6 @@ app.post("/create_ticket", (req, res) => {
 
 
 app.post("/create_comment", (req, res) => {
-    console.log("Fikk post request fra klienten");
     let val = [
         req.body.content,
         req.body.priority,
@@ -106,7 +101,6 @@ app.post("/create_comment", (req, res) => {
         res.json(data);
     }, val);
 });
-
 
 
 let server = app.listen(4000);

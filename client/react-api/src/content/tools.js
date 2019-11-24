@@ -1,7 +1,7 @@
 //@ flow
 
 import {ticketService} from "../network/services";
-import {Row, Card, ListGroup} from "react-bootstrap";
+import {Row, Card, ListGroup, Button} from "react-bootstrap";
 import React from 'react'
 
 
@@ -23,8 +23,10 @@ export class LiveFeed extends React.Component {
                     <Row>
                         <ListGroup.Item className={"m-2"} variant={"danger"}>Latest tickets:</ListGroup.Item>
                         {this.state.tickets.map(ticket => (
-                            <ListGroup.Item className={"m-2"}
-                                            variant={"dark"}>{this.convertDateTimeFromSQL(ticket.post_date)}{ticket.content.substring(0, 15)}</ListGroup.Item>
+                            <div>
+                                <ListGroup.Item onClick={() => this.focusTicket(ticket)} className={"m-2"}
+                                                variant={"dark"}>{this.convertDateTimeFromSQL(ticket.post_date)}{ticket.content.substring(0, 15)}</ListGroup.Item>
+                            </div>
                         ))}
                     </Row>
                 </ListGroup>
@@ -42,10 +44,28 @@ export class LiveFeed extends React.Component {
         clearInterval(this.intervalID);
     }
 
+
+    focusTicket(ticket: Object) {
+        window.location.reload();
+        let json: {} = {
+            "ticket_id": ticket.ticket_id,
+            "headline": ticket.headline,
+            "content": ticket.content,
+            "priority": 1,
+            "picture": ticket.picture,
+            "post_date": ticket.post_date,
+            "email": ticket.email,
+            "group_id": ticket.group_id,
+            "author": ticket.author
+        };
+        ticketService.updateTicketPriority(json);
+    }
+
+
     startUpdater(): void {
         this.intervalID = setInterval(() => {
                 this.updateTickets()
-            }, 50000
+            }, 5000
         );
     }
 

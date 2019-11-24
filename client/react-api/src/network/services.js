@@ -17,38 +17,30 @@ export class Ticket {
 
 
 class TicketService {
-    tickets: Ticket[] = [];
-    comments: Comment[] = [];
+
 
     createTicket(json: Object) {
-        console.log(json);
         return axios.post<>('/create_ticket', json);
     }
 
     createComment(json: Object) {
-        console.log(json);
         return axios.post<>('/create_comment', json);
     }
 
     getTickets(priority: number): Promise<any> {
-        return axios.get<Ticket[]>('/tickets/priority/' + priority);
+        return axios.get<>('/tickets/priority/' + priority);
     }
 
     getComments(ticket_id: number): Promise<any> {
-        console.log("Henter kommentarer til " + ticket_id)
-        return axios.get<Comments[]>('/comments/ticket_id/' + ticket_id);
+        return axios.get<>('/comments/ticket_id/' + ticket_id);
     }
 
     getAllTickets(): Promise<any> {
-        return axios.get<Ticket[]>('/tickets/');
+        return axios.get<>('/tickets/');
     }
 
     updateTicketPriority(json: Object): Promise<any> {
         return axios.put('/tickets', json);
-    }
-
-    getArchive() {
-        return axios.get<Archive[]>('/archive').then(response => response.data);
     }
 
     solveTicket(json: Object) {

@@ -1,12 +1,17 @@
 // @flow
 
 import {ticketService} from "../network/services";
-import {Button, Card, Table, Row} from "react-bootstrap";
+import {Button, Card, Table, Row, Col} from "react-bootstrap";
 import React from 'react';
 import {Comments, CommentSubmit} from "./comment";
+import {FromDatetime, PlaceholderTicket} from "../widgets";
 
-export class FocusedTicket extends React.Component {
-    constructor(props) {
+export class FocusedTicket extends React.Component<{}> {
+    state: {
+        tickets: ?[],
+    };
+
+    constructor(props: Object) {
         super(props);
         this.state = {
             tickets: [],
@@ -14,7 +19,7 @@ export class FocusedTicket extends React.Component {
 
     }
 
-    deFocusTicket(ticket) {
+    deFocusTicket(ticket: Object): void {
         window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
@@ -31,7 +36,7 @@ export class FocusedTicket extends React.Component {
     }
 
 
-    convertDateTimeFromSQL(date) {
+    convertDateTimeFromSQL(date: string) {
         var str = date.split('-');
         var year = str[0];
         var month = str[1];
@@ -44,33 +49,10 @@ export class FocusedTicket extends React.Component {
         return 'Ticket posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
     }
 
-    render() {
-        if (this.state.tickets.length < 1) {
-            return (
-                <Row>
-                    <div className="col-lg-4">
-                        <Card className="m-4 bg-dark text-white">
-                            <Button variant="outline-info" disabled>Placeholder ticket</Button>
-                            <div className="card-header"><h5
-                                className="card-title text-center"><span className="text-info">Focus</span> to place
-                                tickets here</h5>
-                            </div>
-                            <div className="card-body">
-                                <img alt="ticket" className="card-img-top img-fluid"/>
-                                <p className="card-subtitle m-2 text-center"><span className="text-info">Focus</span> a
-                                    ticket from the list below to move it here, and get access to additional support
-                                    tools</p>
-                                <br></br>
-                                <br></br>
-                            </div>
-                            <br></br>
-                            <br></br>
-                        </Card>
-                    </div>
-                </Row>
-            )
-        }
-        ;
+    render(): void {
+
+        if (this.state.tickets.length < 1) return (<PlaceholderTicket/>);
+
         return (
             <div>
                 <Row>
@@ -90,14 +72,19 @@ export class FocusedTicket extends React.Component {
                                     <p className="card-text">Ticket number: {ticket.ticket_id}</p>
                                     <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
                                     <p className="card-subtitle mb-2"><Button variant="link">{}Contact</Button></p>
-                                    <p className="card-text"><small
-                                        className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small>
-                                    </p>
+
+                                    <Row>
+                                        <Col sm={3}>
+                                            <p className={"text-white"}>Ticket posted:</p>
+                                        </Col>
+                                        <Col>
+                                            <p className={"text-muted"}><FromDatetime post_date={ticket.post_date}/></p>
+                                        </Col>
+                                    </Row>
 
                                     <Comments id={ticket.ticket_id}/>
                                     <br></br>
                                     <CommentSubmit id={ticket.ticket_id}/>
-
 
                                 </div>
                                 <Button variant="outline-danger" onClick={() => this.archiveTicket(ticket)}>Mark as
@@ -111,7 +98,7 @@ export class FocusedTicket extends React.Component {
         )
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         ticketService
             .getTickets(1).then(res => {
             const tickets = res.data;
@@ -120,11 +107,11 @@ export class FocusedTicket extends React.Component {
     }
 
     sendEmail(ticket: Object) {
-        let url = ticket.category;
+        let url = ticket.email;
         window.open('mailto:' + url, '_blank');
     }
 
-    archiveTicket(ticket) {
+    archiveTicket(ticket: Object) {
         window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
@@ -140,8 +127,12 @@ export class FocusedTicket extends React.Component {
     }
 }
 
-export class TicketList extends React.Component {
-    constructor(props) {
+export class TicketList extends React.Component<{}> {
+    state: {
+        tickets: ?[],
+    };
+
+    constructor(props: Object) {
         super(props);
         this.state = {
             tickets: [],
@@ -173,7 +164,7 @@ export class TicketList extends React.Component {
                             <td>{ticket.author}</td>
                             <td>{ticket.headline}</td>
                             <td>{ticket.content}</td>
-                            <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
+                            <td><FromDatetime post_date={ticket.post_date}/></td>
                             <td>
                                 <Button variant="danger" onClick={() => this.archiveTicket(ticket)}>Mark as
                                     solved</Button>
@@ -186,7 +177,7 @@ export class TicketList extends React.Component {
         )
     }
 
-    focusTicket(ticket) {
+    focusTicket(ticket: Object) {
         window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
@@ -209,7 +200,7 @@ export class TicketList extends React.Component {
         });
     }
 
-    archiveTicket(ticket) {
+    archiveTicket(ticket: Object) {
         window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
@@ -224,7 +215,7 @@ export class TicketList extends React.Component {
         ticketService.solveTicket(json);
     }
 
-    convertDateTimeFromSQL(date) {
+    convertDateTimeFromSQL(date: string) {
         var str = date.split('-');
         var year = str[0];
         var month = str[1];

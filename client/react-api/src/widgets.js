@@ -1,13 +1,66 @@
 // @flow
 /* eslint eqeqeq: "off" */
 import * as React from 'react';
-import { Component } from 'react-simplified';
-import { NavLink } from 'react-router-dom';
+import {Component} from 'react-simplified';
+import {NavLink} from 'react-router-dom';
+import {Button, Card, Row} from "react-bootstrap";
+import {Comments, CommentSubmit} from "./content/comment";
 
 
-/**
- * Renders alert messages using Bootstrap classes.
- */
+export class FromDatetime extends React.Component<{post_date : String}> {
+    constructor(props : Object){
+        super(props);
+    }
+
+    render(){
+        return(
+            <div>
+                    {this.convertDateTimeFromSQL(this.props.post_date)}
+            </div>
+        )
+    }
+
+    convertDateTimeFromSQL(date: string) {
+        var str = date.split('-');
+        var year = str[0];
+        var month = str[1];
+        var rest = str[2];
+        var time = rest.split('T');
+        var day = time[0];
+        var restTime = time[1].split(':');
+        var hour = restTime[0];
+        var minute = restTime[1];
+        return hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
+    }
+}
+
+export class PlaceholderTicket extends React.Component {
+    render() {
+        return (
+            <Row>
+                <div className="col-lg-4">
+                    <Card className="m-4 bg-dark text-white">
+                        <Button variant="outline-info" disabled>Placeholder ticket</Button>
+                        <div className="card-header"><h5
+                            className="card-title text-center"><span className="text-info">Focus</span> to place
+                            tickets here</h5>
+                        </div>
+                        <div className="card-body">
+                            <p className="card-subtitle m-2 text-center"><span className="text-info">Focus</span> a
+                                ticket from the list below to move it here, and get access to additional support
+                                tools</p>
+                            <br/>
+                            <br/>
+                        </div>
+                        <br/>
+                        <br/>
+                    </Card>
+                </div>
+            </Row>
+        )
+    }
+}
+
 export class Alert extends Component {
     alerts: { id: number, text: React.Node, type: string }[] = [];
     static nextId = 0;
@@ -36,28 +89,44 @@ export class Alert extends Component {
     static success(text: React.Node) {
         // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
         setTimeout(() => {
-            for (let instance of Alert.instances()) instance.alerts.push({ id: Alert.nextId++, text: text, type: 'success' });
+            for (let instance of Alert.instances()) instance.alerts.push({
+                id: Alert.nextId++,
+                text: text,
+                type: 'success'
+            });
         });
     }
 
     static info(text: React.Node) {
         // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
         setTimeout(() => {
-            for (let instance of Alert.instances()) instance.alerts.push({ id: Alert.nextId++, text: text, type: 'info' });
+            for (let instance of Alert.instances()) instance.alerts.push({
+                id: Alert.nextId++,
+                text: text,
+                type: 'info'
+            });
         });
     }
 
     static warning(text: React.Node) {
         // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
         setTimeout(() => {
-            for (let instance of Alert.instances()) instance.alerts.push({ id: Alert.nextId++, text: text, type: 'warning' });
+            for (let instance of Alert.instances()) instance.alerts.push({
+                id: Alert.nextId++,
+                text: text,
+                type: 'warning'
+            });
         });
     }
 
     static danger(text: React.Node) {
         // To avoid 'Cannot update during an existing state transition' errors, run after current event through setTimeout
         setTimeout(() => {
-            for (let instance of Alert.instances()) instance.alerts.push({ id: Alert.nextId++, text: text, type: 'danger' });
+            for (let instance of Alert.instances()) instance.alerts.push({
+                id: Alert.nextId++,
+                text: text,
+                type: 'danger'
+            });
         });
     }
 }
@@ -92,30 +161,6 @@ export class NavBar extends Component<{ brand?: React.Node, children?: React.Nod
     }
 }
 
-/**
- * Renders an information card using Bootstrap classes
- */
-export class Card extends Component<{ title: React.Node, children?: React.Node }> {
-    render() {
-        return (
-            <div className="card">
-                <div className="card-body">
-                    <h5 className="card-title">{this.props.title}</h5>
-                    <div className="card-text">{this.props.children}</div>
-                </div>
-            </div>
-        );
-    }
-}
-
-/**
- * Renders a row using Bootstrap classes
- */
-export class Row extends Component<{ children?: React.Node }> {
-    render() {
-        return <div className="row">{this.props.children}</div>;
-    }
-}
 
 /**
  * Renders a column with specified width using Bootstrap classes
@@ -132,22 +177,3 @@ export class Column extends Component<{ width?: number, right?: boolean, childre
     }
 }
 
-class ButtonDanger extends Component<{
-    onClick: () => mixed, // Any function
-    children?: React.Node
-}> {
-    render() {
-        return (
-            <button type="button" className="btn btn-danger" onClick={this.props.onClick}>
-                {this.props.children}
-            </button>
-        );
-    }
-}
-
-/**
- * Renders a button using Bootstrap classes
- */
-export class Button {
-    static Danger = ButtonDanger;
-}

@@ -6,7 +6,19 @@ import {ticketService} from "../network/services";
 
 
 export class SubmitForm extends React.Component {
-    constructor(props) {
+    state : {
+        headline: string,
+        content: string,
+        priority: number,
+        picture: string,
+        post_date: string,
+        email: string,
+        group_id: number,
+        author: string
+    };
+
+
+    constructor(props : Object) {
         super(props);
         this.state = {
             headline: '',
@@ -33,7 +45,7 @@ export class SubmitForm extends React.Component {
         this.setState({[name]: value,});
     }
 
-    handleSubmit(event) {
+    handleSubmit(event : Object) {
         event.preventDefault();
         this.submitTicket();
     }
@@ -64,8 +76,8 @@ export class SubmitForm extends React.Component {
                         </Form.Group>
 
                         <Form.Group>
-                            <Form.Control type="email" name="category" placeholder="Enter your email"
-                                          value={this.state.category} onChange={this.handleInputChange}/>
+                            <Form.Control type="email" name="email" placeholder="Enter your email"
+                                          value={this.state.email} onChange={this.handleInputChange}/>
                         </Form.Group>
 
                         <Form.Group>
@@ -86,22 +98,27 @@ export class SubmitForm extends React.Component {
         )
     }
 
-    submitTicket() {
+    submitTicket() : void{
+        let picture = this.state.picture;
+
+        if(this.state.picture === ''){
+            picture = "http://i.imgur.com/zz26WUB.jpg";
+        }
+
         let json: {} = {
             "headline": this.state.headline,
             "content": this.state.content,
             "priority": this.state.priority,
-            "picture": this.state.picture,
+            "picture": picture,
             "post_date": this.state.post_date,
             "group_id": this.state.group_id,
             "author": this.state.author
         };
 
 
-        ticketService.createTicket(json).then(res =>
-            alert("Thank you, you will hear from us shortly.")
-            );
 
+        ticketService.createTicket(json).then(res => console.log(res));
+        alert("Thank you, you will hear from us shortly.");
         window.location.reload();
 
     }
