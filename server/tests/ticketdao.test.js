@@ -1,6 +1,6 @@
 let mysql = require("mysql");
 
-const TicketDao = require("./ticketdao.js");
+const TicketDao = require("../dao/ticketdao.js");
 let pool = require("./connectionDB");
 const runsqlfile = require("./runsqlfile.js");
 
@@ -16,7 +16,7 @@ test("get all tickets from db", done => {
         expect(data.length).toBeGreaterThan(0);
         done();
     }
-    ticketdao.getAll(callback);
+    ticketDao.getAll(callback);
 });
 
 test("get single latest ticket from db", done => {
@@ -25,7 +25,7 @@ test("get single latest ticket from db", done => {
         expect(data.length).toBe(1);
         done();
     }
-    ticketdao.getLatest(callback);
+    ticketDao.getLatest(callback);
 });
 
 test("post ticket to db", done =>{
