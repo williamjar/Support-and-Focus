@@ -15,8 +15,8 @@ module.exports = class TicketDao extends Dao {
         super.query('INSERT INTO ticket(headline, content, priority, picture, post_date,email,group_id, author) VALUES (?,?,?,?,?,?,?,?)', list, callback);
     }
 
-    solveOne(callback, article_id){
-        super.query('UPDATE ticket SET priority = 3 WHERE article_id=?',[article_id], callback);
+    solveOne(callback, ticket_id){
+        super.query('UPDATE ticket SET priority = 3 WHERE ticket_id=?',[ticket_id], callback);
     }
 
     updateOne(callback, list){

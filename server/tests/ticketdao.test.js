@@ -34,7 +34,6 @@ test("post ticket to db", done =>{
         expect(status).toBe(200);
         done()
     }
-
     let list = ["Sample ticket","I need help with my sample ticket",2,"picture.png","2000-01-01 00:00:00","test@test.no",1,"Navn Navnesen"];
 
     ticketDao.createOne(callback, list);
@@ -59,7 +58,7 @@ test("solve a ticket", done =>{
     ticketDao.solveOne(callback,1);
 });
 
-test("get articles by priority from db", done =>{
+test("get tickets by priority from db", done =>{
     function callback(status, data){
         console.log("Test callback: status=" + status + ", data.length="+data.length);
         expect(data.length).toBeGreaterThan(0);
@@ -68,7 +67,7 @@ test("get articles by priority from db", done =>{
     ticketDao.getByPriority(callback, 2);
 });
 
-test("get articles by group from db", done =>{
+test("get tickets by group from db", done =>{
     function callback(status, data){
         console.log("Test callback: status=" + status + ", data.length="+data.length);
         expect(data.length).toBeGreaterThanOrEqual(0);
