@@ -44,7 +44,11 @@ class TicketService {
     }
 
     solveTicket(json: Object) {
-        axios.put<>('/tickets', json);
+        return axios.put<>('/tickets', json);
+    }
+
+    getGroups() {
+        return axios.get<>('/groups');
     }
 }
 

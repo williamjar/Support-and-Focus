@@ -35,20 +35,6 @@ export class FocusedTicket extends React.Component<{}> {
         ticketService.updateTicketPriority(json);
     }
 
-
-    convertDateTimeFromSQL(date: string) {
-        var str = date.split('-');
-        var year = str[0];
-        var month = str[1];
-        var rest = str[2];
-        var time = rest.split('T');
-        var day = time[0];
-        var restTime = time[1].split(':');
-        var hour = restTime[0];
-        var minute = restTime[1];
-        return 'Ticket posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
-    }
-
     render(): void {
 
         if (this.state.tickets.length < 1) return (<PlaceholderTicket/>);
@@ -83,7 +69,7 @@ export class FocusedTicket extends React.Component<{}> {
                                     </Row>
 
                                     <Comments id={ticket.ticket_id}/>
-                                    <br></br>
+                                    <br/>
                                     <CommentSubmit id={ticket.ticket_id}/>
 
                                 </div>
@@ -145,13 +131,14 @@ export class TicketList extends React.Component<{}> {
                 <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>
                     <thead>
                     <tr>
-                        <th>Focus</th>
+                        <th><Button variant={"success"} onClick={() => this.refresh()}>Refresh list</Button></th>
                         <th>Ticket ID</th>
                         <th>Customer</th>
                         <th>Order Number</th>
                         <th>Content</th>
                         <th>Submitted</th>
                         <th>Archive</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -200,6 +187,10 @@ export class TicketList extends React.Component<{}> {
         });
     }
 
+    refresh() {
+        window.location.reload();
+    }
+
     archiveTicket(ticket: Object) {
         window.location.reload();
         let json: {} = {
@@ -215,18 +206,6 @@ export class TicketList extends React.Component<{}> {
         ticketService.solveTicket(json);
     }
 
-    convertDateTimeFromSQL(date: string) {
-        var str = date.split('-');
-        var year = str[0];
-        var month = str[1];
-        var rest = str[2];
-        var time = rest.split('T');
-        var day = time[0];
-        var restTime = time[1].split(':');
-        var hour = restTime[0];
-        var minute = restTime[1];
-        return 'Ticket posted: ' + hour + ':' + minute + ', ' + day + '.' + month + '.' + year;
-    }
 }
 
 

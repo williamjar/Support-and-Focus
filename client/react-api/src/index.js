@@ -10,6 +10,7 @@ import {ToolBar} from "./content/tools";
 import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
+import Col from "react-bootstrap/Col";
 
 //menu for navigation
 class Menu extends Component {
@@ -45,7 +46,7 @@ const root = document.getElementById('root');
 if (root)
     ReactDOM.render(
         <HashRouter>
-            <div>
+            <div className="bg-light">
                 <Alert/>
                 <Menu/>
                 <Route exact path="/" component={Faq}/>
@@ -53,7 +54,6 @@ if (root)
                 <Route path="/tickets" component={ToolBar}/>
                 <Route path="/tickets" component={FocusedTicket}/>
                 <Route path="/tickets" component={TicketList}/>
-                <Route path="/faq" component={Faq}/>
                 <Route path="/archive" component={ArchiveList}/>
                 <Footer/>
             </div>

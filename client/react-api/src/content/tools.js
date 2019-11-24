@@ -3,6 +3,7 @@
 import {ticketService} from "../network/services";
 import {Row, Card, ListGroup, Button} from "react-bootstrap";
 import React from 'react'
+import Col from "react-bootstrap/Col";
 
 
 export class LiveFeed extends React.Component {
@@ -17,6 +18,9 @@ export class LiveFeed extends React.Component {
 
     render(): html {
 
+        if (this.state.tickets.length === 0) return (
+            <div><Row> <ListGroup.Item className={"m-2"} variant={"primary"}>No new tickets</ListGroup.Item> </Row>
+            </div>)
         return (
             <div>
                 <ListGroup horizontal variant={"flush"}>
@@ -25,7 +29,12 @@ export class LiveFeed extends React.Component {
                         {this.state.tickets.map(ticket => (
                             <div>
                                 <ListGroup.Item onClick={() => this.focusTicket(ticket)} className={"m-2"}
-                                                variant={"dark"}>{this.convertDateTimeFromSQL(ticket.post_date)}{ticket.content.substring(0, 15)}</ListGroup.Item>
+                                                variant={"dark"}>
+
+                                    {this.convertDateTimeFromSQL(ticket.post_date)}"{ticket.content.substring(0, 25)}..."
+                                    by {ticket.author}
+
+                                </ListGroup.Item>
                             </div>
                         ))}
                     </Row>
@@ -61,14 +70,12 @@ export class LiveFeed extends React.Component {
         ticketService.updateTicketPriority(json);
     }
 
-
     startUpdater(): void {
         this.intervalID = setInterval(() => {
                 this.updateTickets()
             }, 5000
         );
     }
-
 
     updateTickets(): void {
         ticketService
@@ -87,6 +94,44 @@ export class LiveFeed extends React.Component {
         var minute = restTime[1];
         return hour + ':' + minute + ': ';
     }
+}
+
+//Grouper is a filter for all the tickets, to sort them into their respective category, based on their group. This will be implemented later.
+export class Grouper extends React.Component {
+    constructor(props: Object) {
+        super(props);
+        this.state = {
+            groups: [],
+        };
+    }
+
+    render() {
+
+        return (
+            <div>
+                <Row>
+                    {this.state.groups.map(group => (
+                        <Col sm={1}>
+                            <div>
+                                <Button variant={"light"}>{group.group_name}</Button>
+                            </div>
+                        </Col>
+                    ))}
+                </Row>
+            </div>
+        )
+    }
+
+
+    componentDidMount(): void {
+        ticketService
+            .getGroups()
+            .then(res => {
+                const groups = res.data;
+                this.setState({groups})
+            });
+    }
+
 }
 
 

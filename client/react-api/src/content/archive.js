@@ -27,7 +27,7 @@ export class ArchiveList extends Component {
                         <th>Order Number</th>
                         <th>Content</th>
                         <th>Submitted</th>
-                        <th>Archive</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -41,9 +41,7 @@ export class ArchiveList extends Component {
                             <td>{ticket.headline}</td>
                             <td>{ticket.content}</td>
                             <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
-                            <td>
-                                <Button variant="danger" onClick={() =>this.archiveTicket(ticket)}>Delete forever</Button>
-                            </td>
+
                         </tr>
                     ))}
                     </tbody>

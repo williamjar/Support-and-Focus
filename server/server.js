@@ -20,13 +20,11 @@ function getTime() {
 
 const TicketDao = require('./dao/ticketdao.js');
 const CommentDao = require('./dao/commentdao.js');
-//const ArchiveDao = require('./dao/archivedao.js');
-//const GroupDao = require('./dao/groupdao.js');
+const GroupDao = require('./dao/groupdao.js');
 
 let ticketdao = new TicketDao(pool);
 let commentdao = new CommentDao(pool);
-//let archivedao = new ArchiveDao(pool);
-//let groupdao = new GroupDao(pool);
+let groupdao = new GroupDao(pool);
 
 app.get("/tickets/", (req, res) => {
     console.log("Fikk request om alle artikler");
@@ -49,6 +47,13 @@ app.get("/comments/ticket_id/:ticket_id", (req, res) => {
         res.status(status);
         res.json(data);
     }, req.params.ticket_id);
+});
+
+app.get("/groups", (req, res) => {
+    groupdao.getAll((status, data) => {
+        res.status(status);
+        res.json(data);
+    });
 });
 
 app.put("/tickets", (req, res) => {
