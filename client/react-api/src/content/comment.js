@@ -4,7 +4,7 @@ import {ticketService} from "../network/services";
 import {Button,Row, Form} from "react-bootstrap";
 import React from 'react';
 
-export class Comments extends React.Component<> {
+export class Comments extends React.Component {
 
     constructor(props) {
         super(props);
@@ -22,16 +22,14 @@ export class Comments extends React.Component<> {
                     <p className={"card-text"}>
                         <span
                             className="card-text small text-muted">{this.convertDateTimeFromSQL(comment.post_date)} </span>
-                                {comment.content}
+                        {comment.content}
                     </p>
                 ))}
             </div>
-
         )
     }
 
     componentDidMount() {
-        console.log("this is the ID in component mount " + this.props.id);
         ticketService
             .getComments(this.props.id)
             .then(res => {
@@ -111,7 +109,7 @@ export class CommentSubmit extends React.Component {
             "post_date": this.state.post_date,
             "ticket_id": this.state.ticket_id
         };
-        ticketService.createComment(json).then(res => console.log("comment created successfully"));
+        ticketService.createComment(json).then(() => console.log("comment created successfully"));
     }
 
     componentDidMount() {
