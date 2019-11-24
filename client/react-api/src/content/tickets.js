@@ -1,5 +1,9 @@
 // @flow
 
+/*
+Denne filen har både fokuserte "tickets" og listen med resterende "tickets".
+ */
+
 import {ticketService} from "../network/services";
 import {Button, Card, Table, Row, Col} from "react-bootstrap";
 import React from 'react';

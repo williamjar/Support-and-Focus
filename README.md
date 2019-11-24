@@ -14,13 +14,12 @@ Ved at "tickets" endrer prioritet, vil man alltid kunne se hvilken kundebehandle
 Det er også mulig å kommentere "tickets" og deretter legge dem tilbake i køen. Da kan en annen kundebehandler ta tak i saken og fortsette. 
 
 **Hva er med i dette prosjektet**
-* Statisk typesjekking med Flow
+* Statisk typesjekking med Flow, på Klient
 * React med service-klasser
 * Node.js og REST-backend
 * Funskjonelle algoritmer i Javascript(feks. .map for at det skal være mulig å lage nok div-objekter til å vise det vi vil fra databasen)
 * Tester og CI med GitLab
 * Enkel LiveFeed som henter de 5 siste artiklene uavhengig av prioritet ut av databasen hvert 5 sekund
-* Tester på server og på klient der det lar seg gjøre
 ___
 
 ![showing single ticket](https://i.imgur.com/JDksOzV.png) 
@@ -46,7 +45,24 @@ ___
 Annet:
 Kategorier(groups) lagres i databasen.
 LiveFeed er med.
-Kommentarer for "tickets" er med
-Har med andre funksjoner som et "ticket"-system krever å ha med.
+Kommentarer for "tickets" er med. Har med andre funksjoner som et "ticket"-system krever å ha med. Fokus på å lage et godt grunnlag for videre utvidelser.
+___
+**Installation guide**
 
+### Server
+```
+cd server
+npm install
+npm test
+npm start
+```
+### Client
+```
+cd client/react-api
+npm install
+npm test
+npm start
+```
+###Flow
+Flow can be run locally by running the command *flow*. 
 
