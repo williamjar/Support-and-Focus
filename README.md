@@ -64,5 +64,6 @@ npm test
 npm start
 ```
 ###Flow
-Flow can be run locally by running the command *flow*. 
+
+*Flow has been ran locally in both directories mentioned above.*
 

@@ -2,6 +2,10 @@
 import {Component} from "react-simplified";
 import React from 'react';
 
+/*
+Generell info-side. Skal kunne endres via admin-panel(ikke laget enda).
+ */
+
 export class Faq extends Component {
     render() : void{
         return(

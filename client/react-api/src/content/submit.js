@@ -4,9 +4,12 @@ import React from 'react';
 import {Form, Button} from 'react-bootstrap'
 import {ticketService} from "../network/services";
 
+/*
+    Denne filen innholder kunden sin "submitform"
+ */
 
 export class SubmitForm extends React.Component {
-    state : {
+    state: {
         headline: string,
         content: string,
         priority: number,
@@ -18,7 +21,7 @@ export class SubmitForm extends React.Component {
     };
 
 
-    constructor(props : Object) {
+    constructor(props: Object) {
         super(props);
         this.state = {
             headline: '',
@@ -45,7 +48,7 @@ export class SubmitForm extends React.Component {
         this.setState({[name]: value,});
     }
 
-    handleSubmit(event : Object) {
+    handleSubmit(event: Object) {
         event.preventDefault();
         this.submitTicket();
     }
@@ -98,10 +101,10 @@ export class SubmitForm extends React.Component {
         )
     }
 
-    submitTicket() : void{
+    submitTicket(): void {
         let picture = this.state.picture;
 
-        if(this.state.picture === ''){
+        if (this.state.picture === '') {
             picture = "http://i.imgur.com/zz26WUB.jpg";
         }
 
@@ -114,8 +117,6 @@ export class SubmitForm extends React.Component {
             "group_id": this.state.group_id,
             "author": this.state.author
         };
-
-
 
         ticketService.createTicket(json).then(res => console.log(res));
         alert("Thank you, you will hear from us shortly.");

@@ -5,6 +5,9 @@ import {Row, Card, ListGroup, Button} from "react-bootstrap";
 import React from 'react'
 import Col from "react-bootstrap/Col";
 
+/*
+    Denne filen har ulike maler for ulike komponenter som kan gjenbrukes
+ */
 
 export class LiveFeed extends React.Component {
     intervalID = 0;

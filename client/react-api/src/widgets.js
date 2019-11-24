@@ -5,6 +5,9 @@ import {Component} from 'react-simplified';
 import {NavLink} from 'react-router-dom';
 import {Button, Card, Row} from "react-bootstrap";
 
+/*
+    Denne filen har ulike komponenter og funksjoner
+ */
 
 export class FromDatetime extends React.Component<{post_date : String}> {
 

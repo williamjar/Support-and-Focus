@@ -11,6 +11,10 @@ import {ArchiveList} from './content/archive';
 import {Faq} from './content/faq'
 import {SubmitForm} from './content/submit';
 
+/*
+    Denne filen har skallet rundt alle de andre komponentene. Denne filen bruker react-simplified.( Takk Eidheim ! ).
+ */
+
 //menu for navigation
 class Menu extends Component {
     render() {
@@ -19,12 +23,11 @@ class Menu extends Component {
                 <NavBar.Link to="/tickets">Tickets</NavBar.Link>
                 <NavBar.Link to="/archive">Archive</NavBar.Link>
             </NavBar>
-
         );
     }
 }
 
-//homepage
+// footer
 class Footer extends Component {
     render() {
         return (
@@ -34,8 +37,6 @@ class Footer extends Component {
                 </p>
 
             </div>
-
-
         )
     }
 }

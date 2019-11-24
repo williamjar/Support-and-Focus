@@ -5,15 +5,9 @@ import axios from 'axios';
 
 import {sharedComponentData} from "react-simplified";
 
-export class Ticket {
-    ticket_id: number;
-    headline: String;
-    priority: number;
-    category: String;
-    picture: String;
-    post_date: String;
-    author: String;
-}
+/*
+    Denne filen er den eneste service-klassen. Denne vil være spredt ut i og sortert fremtiden.
+ */
 
 
 class TicketService {

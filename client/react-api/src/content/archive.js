@@ -1,9 +1,13 @@
 // @flow
+
 import {Component} from "react-simplified";
 import {ticketService} from "../network/services";
 import {Button, Table} from "react-bootstrap";
-
 import React from 'react';
+
+/*
+    Denne filen har en liste over alle arkiverte(løste) "tickets".
+ */
 
 export class ArchiveList extends Component {
 
@@ -11,7 +15,7 @@ export class ArchiveList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tickets : [],
+            tickets: [],
         };
     }
 
@@ -34,7 +38,8 @@ export class ArchiveList extends Component {
                     {this.state.tickets.map(ticket => (
                         <tr>
                             <td>
-                                <Button variant="warning" onClick={() => this.recoverTicket(ticket)}>Recover ticket</Button>
+                                <Button variant="warning" onClick={() => this.recoverTicket(ticket)}>Recover
+                                    ticket</Button>
                             </td>
                             <td>{ticket.ticket_id}</td>
                             <td>{ticket.author}</td>
@@ -50,7 +55,7 @@ export class ArchiveList extends Component {
         )
     }
 
-    recoverTicket(ticket){
+    recoverTicket(ticket) {
         window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
@@ -59,8 +64,8 @@ export class ArchiveList extends Component {
             "priority": 2,
             "picture": ticket.picture,
             "post_date": ticket.post_date,
-            "email":ticket.email,
-            "group_id":ticket.group_id,
+            "email": ticket.email,
+            "group_id": ticket.group_id,
             "author": ticket.author
         };
         ticketService.updateTicketPriority(json);

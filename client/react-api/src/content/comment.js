@@ -5,6 +5,10 @@ import {Button, Row, Form, Col} from "react-bootstrap";
 import React from 'react';
 import {FromDatetime} from "../widgets";
 
+/*
+    Denne filen har kommentar-objekter, samt objekter som kan sende inn kommentarer.
+ */
+
 export class Comments extends React.Component {
     state: {
         comments: ?[],
