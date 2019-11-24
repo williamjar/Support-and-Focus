@@ -61,10 +61,7 @@ export class FocusedTicket extends React.Component<{}> {
                                 <div className="card-footer">
                                     <p className="card-text">Ticket number: {ticket.ticket_id}</p>
                                     <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
-                                    <p className="card-subtitle mb-2"><Button variant="link"
-                                                                              onClick={() => this.sendEmail(ticket)}>Contact</Button>
-                                    </p>
-
+                                    <p className="card-subtitle mb-2"><Button variant="link" onClick={() => this.sendEmail(ticket)}>Contact</Button></p>
                                     <Row>
                                         <Col sm={3}>
                                             <p className={"text-white"}>Ticket posted:</p>

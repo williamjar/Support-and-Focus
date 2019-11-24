@@ -20,11 +20,13 @@ import Row from "react-bootstrap/Row";
 class Menu extends Component {
     render() {
         return (
+            <div>
+                <img src="/smallogo.png" alt="Tickets Focus logo" />
             <NavBar>
-                <NavBar.Link to="/"><img src="/smallogo.png" alt="Tickets Focus logo" /></NavBar.Link>
                 <NavBar.Link to="/tickets">Tickets</NavBar.Link>
                 <NavBar.Link to="/archive">Archive</NavBar.Link>
             </NavBar>
+            </div>
         );
     }
 }
