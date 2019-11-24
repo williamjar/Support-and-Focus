@@ -1,6 +1,7 @@
 // @flow
+
 import {ticketService} from "../network/services";
-import {Modal, Button, Card, ListGroup, Container, Table, Row, Col, Form} from "react-bootstrap";
+import {Button,Row, Form} from "react-bootstrap";
 import React from 'react';
 
 export class Comments extends React.Component<> {

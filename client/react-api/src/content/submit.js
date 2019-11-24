@@ -1,12 +1,9 @@
 // @flow
 
-import {Component} from "react";
-import {Form, Container, Button, Spinner, DropdownButton, Dropdown} from 'react-bootstrap'
-import {Ticket, ticketService} from "../network/services";
+import React from 'react';
+import {Form, Button} from 'react-bootstrap'
+import {ticketService} from "../network/services";
 
-import {Row, Column, Card} from "../widgets";
-import {Alert} from "../widgets";
-import React, {useDebugValue, useState, useEffect} from 'react';
 
 export class SubmitForm extends React.Component {
     constructor(props) {

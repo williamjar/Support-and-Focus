@@ -16,7 +16,8 @@ test("get specific comment from db", done => {
         expect(data.length).toBeGreaterThanOrEqual(1);
         done();
     }
-    commentDao.getComments(callback, 1);
+
+    commentDao.getComments(callback, 89);
 });
 
 test("get single latest ticket from db", done => {

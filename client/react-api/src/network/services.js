@@ -1,20 +1,19 @@
 // @flow
 
-import * as React from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+
 
 import {sharedComponentData} from "react-simplified";
-export class Ticket {
-    ticket_id : number;
-    headline : String;
-    priority : number;
-    category : String;
-    picture : String;
-    post_date : String;
-    author : String;
-}
 
+export class Ticket {
+    ticket_id: number;
+    headline: String;
+    priority: number;
+    category: String;
+    picture: String;
+    post_date: String;
+    author: String;
+}
 
 
 class TicketService {

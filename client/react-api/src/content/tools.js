@@ -1,37 +1,39 @@
-import {Ticket, ticketService} from "../network/services";
-import {Component} from "react-simplified";
-import {Alert, Col, Row, CardColumns, breakpoint, Card, ListGroup, Button} from "react-bootstrap";
-import React from 'react'
-import {Comments, CommentSubmit} from "./comment";
+//@ flow
 
-export class LiveFeed extends React.Component{
+import {ticketService} from "../network/services";
+import {Row, Card, ListGroup} from "react-bootstrap";
+import React from 'react'
+
+
+export class LiveFeed extends React.Component {
     intervalID = 0;
+
     constructor(props) {
         super(props);
         this.state = {
-            tickets : [],
+            tickets: [],
         };
-
     }
 
-    render() : html{
+    render(): html {
 
-            return(
-                <div>
-                    <ListGroup horizontal variant={"flush"} >
-                        <Row>
-                            <ListGroup.Item className={"m-2"} variant={"danger"}>Latest tickets:</ListGroup.Item>
-                        {this.state.tickets.map(ticket =>(
-                                <ListGroup.Item className={"m-2"} variant={"dark"} >{this.convertDateTimeFromSQL(ticket.post_date)}{ ticket.content.substring(0, 15)}</ListGroup.Item>
+        return (
+            <div>
+                <ListGroup horizontal variant={"flush"}>
+                    <Row>
+                        <ListGroup.Item className={"m-2"} variant={"danger"}>Latest tickets:</ListGroup.Item>
+                        {this.state.tickets.map(ticket => (
+                            <ListGroup.Item className={"m-2"}
+                                            variant={"dark"}>{this.convertDateTimeFromSQL(ticket.post_date)}{ticket.content.substring(0, 15)}</ListGroup.Item>
                         ))}
-                        </Row>
-                    </ListGroup>
-                </div>
+                    </Row>
+                </ListGroup>
+            </div>
 
-            )
+        )
     }
 
-    componentDidMount() : void{
+    componentDidMount(): void {
         this.updateTickets();
         this.startUpdater();
     }
@@ -40,15 +42,15 @@ export class LiveFeed extends React.Component{
         clearInterval(this.intervalID);
     }
 
-    startUpdater() : void {
+    startUpdater(): void {
         this.intervalID = setInterval(() => {
-            this.updateTickets()}, 50000
+                this.updateTickets()
+            }, 50000
         );
     }
 
 
-
-    updateTickets() : void {
+    updateTickets(): void {
         ticketService
             .getAllTickets().then(res => {
             const tickets = res.data;
@@ -58,11 +60,8 @@ export class LiveFeed extends React.Component{
 
     convertDateTimeFromSQL(date) {
         var str = date.split('-');
-        var year = str[0];
-        var month = str[1];
         var rest = str[2];
         var time = rest.split('T');
-        var day = time[0];
         var restTime = time[1].split(':');
         var hour = restTime[0];
         var minute = restTime[1];
@@ -71,13 +70,11 @@ export class LiveFeed extends React.Component{
 }
 
 
-
-
 export class ToolBar extends React.Component {
 
-    render(){
+    render() {
 
-        return(
+        return (
             <div>
                 <Card className="m-4 bg-dark text-white">
                     <div

@@ -1,8 +1,8 @@
 // @flow
 import {Component} from "react-simplified";
-import {Archive, Ticket, ticketService} from "../network/services";
-import {Button, ListGroup, Table, Row,Modal, Card, Container} from "react-bootstrap";
-import {Alert} from "../widgets";
+import {ticketService} from "../network/services";
+import {Button, Table} from "react-bootstrap";
+
 import React from 'react';
 
 export class ArchiveList extends Component {

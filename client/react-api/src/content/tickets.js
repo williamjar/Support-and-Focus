@@ -1,21 +1,15 @@
 // @flow
 
-import {useState} from 'react';
 import {ticketService} from "../network/services";
-import {Button, Card, Accordion, Collapse, ListGroup, Container, Table, Navbar, Row,Col, Form} from "react-bootstrap";
+import {Button, Card, Table, Row} from "react-bootstrap";
 import React from 'react';
-import { HashRouter, Route, NavLink } from 'react-router-dom';
 import {Comments, CommentSubmit} from "./comment";
-import { createHashHistory } from 'history';
-const history = createHashHistory();
-
-
 
 export class FocusedTicket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tickets : [],
+            tickets: [],
         };
 
     }
@@ -29,8 +23,8 @@ export class FocusedTicket extends React.Component {
             "priority": 2,
             "picture": ticket.picture,
             "post_date": ticket.post_date,
-            "email":ticket.email,
-            "group_id":ticket.group_id,
+            "email": ticket.email,
+            "group_id": ticket.group_id,
             "author": ticket.author
         };
         ticketService.updateTicketPriority(json);
@@ -50,38 +44,43 @@ export class FocusedTicket extends React.Component {
     }
 
     render() {
-        if(this.state.tickets.length < 1){
-                return (
-                    <Row>
+        if (this.state.tickets.length < 1) {
+            return (
+                <Row>
                     <div className="col-lg-4">
                         <Card className="m-4 bg-dark text-white">
                             <Button variant="outline-info" disabled>Placeholder ticket</Button>
-                        <div className="card-header"><h5
-                            className="card-title text-center"><span className="text-info">Focus</span> to place tickets here</h5>
-                        </div>
-                        <div className="card-body">
-                            <img className="card-img-top img-fluid" />
-                            <p className="card-subtitle m-2 text-center"><span className="text-info">Focus</span> a ticket from the list below to move it here, and get access to additional support tools</p>
+                            <div className="card-header"><h5
+                                className="card-title text-center"><span className="text-info">Focus</span> to place
+                                tickets here</h5>
+                            </div>
+                            <div className="card-body">
+                                <img alt="ticket" className="card-img-top img-fluid"/>
+                                <p className="card-subtitle m-2 text-center"><span className="text-info">Focus</span> a
+                                    ticket from the list below to move it here, and get access to additional support
+                                    tools</p>
+                                <br></br>
+                                <br></br>
+                            </div>
                             <br></br>
                             <br></br>
-                        </div>
-                            <br></br>
-                            <br></br>
-                            </Card>
+                        </Card>
                     </div>
-                    </Row>
-                )
-        };
+                </Row>
+            )
+        }
+        ;
         return (
-                <div>
+            <div>
                 <Row>
-                {this.state.tickets.map(ticket =>(
-                    <div className={"col-lg-4"}>
+                    {this.state.tickets.map(ticket => (
+                        <div className={"col-lg-4"}>
                             <Card className="m-4 bg-dark text-white">
-                                <Button variant="outline-info" onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
-                                    <div className="card-header"><h5
-                                        className="card-title">{ticket.headline}</h5>
-                                    </div>
+                                <Button variant="outline-info"
+                                        onClick={() => this.deFocusTicket(ticket)}>Defocus</Button>
+                                <div className="card-header"><h5
+                                    className="card-title">{ticket.headline}</h5>
+                                </div>
                                 <div className="card-body">
                                     <img className="card-img-top img-fluid" alt={ticket.headline} src={ticket.picture}/>
                                     <p className="card-subtitle m-2">{ticket.content}</p>
@@ -90,35 +89,38 @@ export class FocusedTicket extends React.Component {
                                     <p className="card-text">Ticket number: {ticket.ticket_id}</p>
                                     <p className="card-subtitle mb-2 text-light">Customer: {ticket.author}</p>
                                     <p className="card-subtitle mb-2"><Button variant="link">{}Contact</Button></p>
-                                    <p className="card-text"><small className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small></p>
+                                    <p className="card-text"><small
+                                        className="text-muted">{this.convertDateTimeFromSQL(ticket.post_date)}</small>
+                                    </p>
 
                                     <Comments id={ticket.ticket_id}/>
                                     <br></br>
                                     <CommentSubmit id={ticket.ticket_id}/>
 
 
-
                                 </div>
-                                <Button variant="outline-danger" onClick={() => this.archiveTicket(ticket)}>Mark as solved</Button>
+                                <Button variant="outline-danger" onClick={() => this.archiveTicket(ticket)}>Mark as
+                                    solved</Button>
                             </Card>
-                            </div>
-                ))}
+                        </div>
+                    ))}
                 </Row>
-                    </div>
+            </div>
 
-        )}
+        )
+    }
 
     componentDidMount() {
         ticketService
             .getTickets(1).then(res => {
             const tickets = res.data;
             this.setState({tickets})
-            });
+        });
     }
 
-    sendEmail(ticket : Object){
+    sendEmail(ticket: Object) {
         let url = ticket.category;
-        window.open('mailto:'+url, '_blank');
+        window.open('mailto:' + url, '_blank');
     }
 
     archiveTicket(ticket) {
@@ -141,13 +143,13 @@ export class TicketList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tickets : [],
+            tickets: [],
         };
     }
 
     render() {
         return (
-                <div className="card m-4 bg-dark text-white">
+            <div className="card m-4 bg-dark text-white">
                 <Table responsive={"sm"} striped bordered hover variant="dark" max-width={20}>
                     <thead>
                     <tr>
@@ -172,17 +174,18 @@ export class TicketList extends React.Component {
                             <td>{ticket.content}</td>
                             <td>{this.convertDateTimeFromSQL(ticket.post_date)}</td>
                             <td>
-                                <Button variant="danger" onClick={() =>this.archiveTicket(ticket)}>Mark as solved</Button>
+                                <Button variant="danger" onClick={() => this.archiveTicket(ticket)}>Mark as
+                                    solved</Button>
                             </td>
                         </tr>
                     ))}
                     </tbody>
                 </Table>
-                </div>
+            </div>
         )
     }
 
-    focusTicket(ticket){
+    focusTicket(ticket) {
         window.location.reload();
         let json: {} = {
             "ticket_id": ticket.ticket_id,
@@ -191,8 +194,8 @@ export class TicketList extends React.Component {
             "priority": 1,
             "picture": ticket.picture,
             "post_date": ticket.post_date,
-            "email":ticket.email,
-            "group_id":ticket.group_id,
+            "email": ticket.email,
+            "group_id": ticket.group_id,
             "author": ticket.author
         };
         ticketService.updateTicketPriority(json);
