@@ -49,7 +49,7 @@ test("update ticket db", done => {
         done()
     }
 
-    let list = ["Updated headline", "Updated content", 1, "updatedPicture.png", "updated@email.com", 2, 1];
+    let list = ["Updated headline", "Updated content", 1, "updatedPicture.png", "updated@email.com", 2,"William Jarbeaux", 1];
     ticketDao.updateOne(callback, list);
 });
 
